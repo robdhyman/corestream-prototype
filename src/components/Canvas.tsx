@@ -86,7 +86,7 @@ export function Canvas() {
         </div>
       )}
 
-      <KButton open={state.kharonOpen} working={!!state.run} onClick={() => dispatch({ type: 'toggleKharon' })} />
+      {!state.kharonOpen && <KButton working={!!state.run} onClick={() => dispatch({ type: 'toggleKharon' })} />}
 
       <button
         type="button"
@@ -212,22 +212,19 @@ function Legend({ title, keys }: { title: string; keys: LegendKey[] }) {
   );
 }
 
-/** k button (hf/k). One disc that stays put (ticket 13, variant A): at rest a light disc with a teal ring; with
- *  Kharon open it is pressed, an orange/100 fill, a 2 px agent ring and an inset, the way a toolbar toggle is on.
- *  Working spins the arc inside whichever disc is showing. */
-function KButton({ open, working, onClick }: { open: boolean; working: boolean; onClick: () => void }) {
+/** k button (hf/k Rest): a light disc with a teal ring. It shows only while Kharon is closed (Rob, 11:03: every
+ *  hi-fi frame with the Kharon panel open hides the k), so the panel head carries the mark and its ✕ closes Kharon.
+ *  If Kharon is closed mid-run, the arc spins in this disc. Ticket 13's pressed chip is retired. */
+function KButton({ working, onClick }: { working: boolean; onClick: () => void }) {
   return (
     <button
       type="button"
       title="Kharon"
-      aria-label={open ? 'Close Kharon' : 'Open Kharon'}
-      aria-pressed={open}
+      aria-label="Open Kharon"
       onClick={onClick}
-      className={`absolute left-4 top-4 z-10 flex size-8 items-center justify-center rounded-full ${open
-        ? 'border-2 border-agent bg-[#ffedd5] shadow-[inset_0_1.5px_3px_rgb(166_74_12/0.35)] hover:bg-[#fee2c4]'
-        : 'border border-[#2c5e6a] bg-[#fafafa] hover:bg-white'}`}
+      className="absolute left-4 top-4 z-10 flex size-8 items-center justify-center rounded-full border border-[#2c5e6a] bg-[#fafafa] hover:bg-white"
     >
-      <KGlyph size={open ? 28 : 30} working={working} />
+      <KGlyph size={30} working={working} />
     </button>
   );
 }

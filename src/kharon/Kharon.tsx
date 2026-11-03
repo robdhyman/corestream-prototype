@@ -6,8 +6,9 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { linkById } from '../data/case';
 import { proposalById, shortName, fullName, versionMeta } from '../data/story';
 import { useApp } from '../state/store';
-import { KMark } from './KMark';
 import { Btn, Note } from './atoms';
+// The head's mark (Figma hf/Kharon head 2246:13290, Rob 11:03): the charcoal ferryman with mist waves, not the orange badge.
+import kHead from './mascot/k-head-charcoal.svg';
 import { Bars, TurnView } from './Thread';
 import { Review, Tray } from './Review';
 
@@ -19,9 +20,9 @@ export function Kharon() {
   return (
     <section className="flex w-[264px] shrink-0 flex-col border-r border-content-border bg-white" aria-label="Kharon">
       <div className="flex h-14 shrink-0 items-center gap-2 border-b border-content-border pl-3 pr-1.5">
-        <KMark size={24} />
+        <img src={kHead} alt="" aria-hidden width={28} height={28} className="block shrink-0" />
         <div className="min-w-0 flex-1">
-          <div className="text-[14px] font-medium leading-[1.1]">Kharon</div>
+          <div className="text-[14px] font-medium leading-[1.1]">Kharon Intelligence</div>
           <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.03em] text-text-soft">{state.run ? 'Working' : 'Suryadeep Insight'}</div>
         </div>
         <button type="button" aria-label="Close Kharon" onClick={() => dispatch({ type: 'toggleKharon' })} className="flex size-7 items-center justify-center rounded-md text-text-muted hover:bg-surface-100">
