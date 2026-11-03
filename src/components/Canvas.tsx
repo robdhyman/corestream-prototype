@@ -8,7 +8,7 @@ import { Graph } from '../graph/Graph';
 import { Timeline } from '../graph/Timeline';
 import { usePanZoom, type CameraTarget } from '../graph/usePanZoom';
 import { ArrangementToggle } from './ArrangementToggle';
-import { caseData, entityById, linkById } from '../data/case';
+import { caseData, linkById } from '../data/case';
 import { CONFIDENCE_LABEL, shortName, versionMeta } from '../data/story';
 import { linkLabel } from '../graph/geometry';
 import { headVersion, initialState } from '../state/flow';
@@ -16,6 +16,7 @@ import { inVersion, type LegendKey } from '../state/graphView';
 import { useApp } from '../state/store';
 import { KGlyph, KMark } from '../kharon/KMark';
 import { Confidence } from '../kharon/atoms';
+import { EntityHoverCard } from './EntityHoverCard';
 
 export function Canvas() {
   const { state, dispatch, view } = useApp();
@@ -38,7 +39,9 @@ export function Canvas() {
 
   // Hover cards stay while the pointer travels from the mark into the card.
   const closing = useRef<ReturnType<typeof setTimeout>>(undefined);
+  // A pinned card (the question box in use, or S2's replay) stays put until Esc or a click on the canvas.
   const hoverTo = (kind: 'entity' | 'link', id: string | null) => {
+    if (state.hoverCard?.pinned) return;
     clearTimeout(closing.current);
     if (id) {
       if (pz.dragging) return;
@@ -126,21 +129,25 @@ export function Canvas() {
 
       {card && state.hoverCard && (
         <div
-          className="absolute z-20 flex w-[240px] flex-col gap-1.5 rounded-lg border border-content-border bg-white px-3 py-2.5 shadow-float"
-          style={{ left: card.x, top: card.y }}
+          className={`absolute z-20 rounded-lg border border-content-border bg-white shadow-float ${state.hoverCard.kind === 'entity' ? 'p-3' : 'flex flex-col gap-1.5 px-3 py-2.5'}`}
+          style={{ left: card.x, top: card.y, width: CARD[state.hoverCard.kind].w }}
           onPointerEnter={() => clearTimeout(closing.current)}
           onPointerLeave={() => hoverTo(state.hoverCard!.kind, null)}
         >
-          {state.hoverCard.kind === 'entity'
-            ? <EntityCardBody id={state.hoverCard.id} found={!inVersion(view, state.hoverCard.id)} />
-            : <LinkCardBody id={state.hoverCard.id} />}
-          <button
-            type="button"
-            onClick={() => dispatch({ type: 'ask', focus: { kind: state.hoverCard!.kind, id: state.hoverCard!.id } })}
-            className="mt-0.5 flex items-center gap-2 rounded-md border border-agent px-2.5 py-1.5 text-[12.5px] font-medium text-[#a64a0c] hover:bg-[#fff4ec]"
-          >
-            <KMark size={18} />Ask Kharon
-          </button>
+          {state.hoverCard.kind === 'entity' ? (
+            <EntityHoverCard key={state.hoverCard.id} id={state.hoverCard.id} found={!inVersion(view, state.hoverCard.id)} />
+          ) : (
+            <>
+              <LinkCardBody id={state.hoverCard.id} />
+              <button
+                type="button"
+                onClick={() => dispatch({ type: 'ask', focus: { kind: 'link', id: state.hoverCard!.id } })}
+                className="mt-0.5 flex items-center gap-2 rounded-md border border-agent px-2.5 py-1.5 text-[12.5px] font-medium text-[#a64a0c] hover:bg-[#fff4ec]"
+              >
+                <KMark size={18} />Ask Kharon
+              </button>
+            </>
+          )}
         </div>
       )}
 
@@ -151,6 +158,9 @@ export function Canvas() {
     </main>
   );
 }
+
+/** Hover card width, and the height kept clear above the canvas's bottom edge. */
+const CARD = { entity: { w: 280, h: 330 }, link: { w: 240, h: 190 } };
 
 /** Screen position for a hover card: right of the Entity (or the Link's midpoint), flipped left near the edge. */
 function placeCard(kind: 'entity' | 'link', id: string, positions: Record<string, { x: number; y: number }>, v: { zoom: number; pan: { x: number; y: number } }, stage: HTMLDivElement | null) {
@@ -166,21 +176,9 @@ function placeCard(kind: 'entity' | 'link', id: string, positions: Record<string
   const w = stage?.clientWidth ?? 800, h = stage?.clientHeight ?? 1000;
   const off = kind === 'entity' ? 24 * v.zoom + 10 : 14;
   let x = sx + off, y = sy - 22;
-  if (x + 240 > w - 8) x = sx - (kind === 'entity' ? 84 * v.zoom + 8 : off) - 240; // clear the centred node label
-  y = Math.min(Math.max(64, y), h - 190);
+  if (x + CARD[kind].w > w - 8) x = sx - (kind === 'entity' ? 84 * v.zoom + 8 : off) - CARD[kind].w; // clear the centred node label
+  y = Math.min(Math.max(64, y), h - CARD[kind].h);
   return { x, y };
-}
-
-function EntityCardBody({ id, found }: { id: string; found: boolean }) {
-  const e = entityById.get(id)!;
-  return (
-    <>
-      <div className="font-mono text-[12px] font-semibold leading-[1.3] text-graph-text">{e.name}</div>
-      <div className="text-[11.5px] text-text-muted">{cap(e.kind)} · {e.place}</div>
-      {e.flag && <span className={`self-start rounded-xs border px-1.5 py-[3px] font-mono text-tag font-medium uppercase tracking-[0.05em] ${e.tier === 'risk' ? 'border-[#fdba74] bg-tag-warn-bg text-tag-warn' : 'border-form-border bg-surface-100 text-text-muted'}`}>{e.flag}</span>}
-      {found && <span className="text-[11.5px] text-primary-active">Found by Kharon · not yet in this Insight</span>}
-    </>
-  );
 }
 
 function LinkCardBody({ id }: { id: string }) {
@@ -246,5 +244,3 @@ function StoryClock() {
     </button>
   );
 }
-
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

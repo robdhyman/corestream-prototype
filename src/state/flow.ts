@@ -84,7 +84,7 @@ export type Action =
   | { type: 'setTab'; tab: PanelTab }
   | { type: 'selectFeed'; id: string }
   | { type: 'hover'; card: FlowState['hoverCard'] }
-  | { type: 'ask'; focus: Focus }
+  | { type: 'ask'; focus: Focus; text?: string }
   | { type: 'toggleKharon' }
   | { type: 'send'; text: string }
   | { type: 'runStep' }
@@ -354,7 +354,7 @@ export function reducer(s: FlowState, a: Action): FlowState {
 
 function step(s: FlowState, a: Action): FlowState {
   switch (a.type) {
-    // S2: clicking the hovered Entity keeps its card, so Ask Kharon stays one click away.
+    // S2: clicking the hovered Entity keeps its card, so its question box stays within reach.
     case 'selectEntity': return { ...s, selectedEntity: a.id, selectedLink: null, panelTab: 'record', hoverCard: s.hoverCard?.id === a.id ? s.hoverCard : null };
     case 'selectLink': return { ...s, selectedLink: a.id, selectedEntity: null, panelTab: 'record', hoverCard: s.hoverCard?.id === a.id ? s.hoverCard : null };
     case 'clearSelection': return { ...s, selectedEntity: null, selectedLink: null, hoverCard: null };
@@ -367,10 +367,13 @@ function step(s: FlowState, a: Action): FlowState {
       return { ...s, feedId: a.id }; // filler cards only take the active state
     }
 
+    // Ticket 16: the hover card's question box sends what was typed; the Link card's button sends the scripted prompt.
     case 'ask': {
+      if (a.text !== undefined && !a.text.trim()) return s;
       const opened: FlowState = { ...s, hoverCard: null, kharonOpen: true, focus: a.focus };
-      if (a.focus.kind === 'link') return reducer({ ...opened, selectedLink: a.focus.id, selectedEntity: null, panelTab: 'record' }, { type: 'send', text: ASK_LINK_PROMPT });
-      return reducer({ ...opened, selectedEntity: a.focus.id, selectedLink: null, panelTab: 'record' }, { type: 'send', text: askEntityPrompt(a.focus.id) });
+      const text = a.text ?? (a.focus.kind === 'link' ? ASK_LINK_PROMPT : askEntityPrompt(a.focus.id));
+      if (a.focus.kind === 'link') return reducer({ ...opened, selectedLink: a.focus.id, selectedEntity: null, panelTab: 'record' }, { type: 'send', text });
+      return reducer({ ...opened, selectedEntity: a.focus.id, selectedLink: null, panelTab: 'record' }, { type: 'send', text });
     }
     case 'toggleKharon': {
       if (s.kharonOpen) return { ...stopRun(s, true), kharonOpen: false, reviewOpen: false };
