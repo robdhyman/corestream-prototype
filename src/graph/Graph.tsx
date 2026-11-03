@@ -24,6 +24,12 @@ const BADGE = { listed: { icon: gppMaybe, fill: 'var(--color-badge-listed)' }, p
 const BADGE_D = 9.846 + 2 * 2.462; // Figma badge: 9.846 icon, 2.462 padding
 const NODE_TAG = { changed: 'Updated', unconfirmed: 'Unconfirmed' } as const;
 const R = NODE_SIZE / 2;
+// The dashed outline (Unconfirmed, a pending risk Change) sits 2 px off the node, so the graph shows between them.
+// Round-capped dashes are tiled evenly round the circle, so there's no seam (Rob, dry run).
+const OUTLINE_W = 1.5;
+const OUTLINE_R = R + 2 + OUTLINE_W / 2;
+const OUTLINE_DASH = 6.5; // 8 px with the round caps
+const OUTLINE_GAP = (2 * Math.PI * OUTLINE_R) / 12 - OUTLINE_DASH;
 const NO_MARKS: never[] = [];
 
 export interface GraphProps {
@@ -196,6 +202,8 @@ const GraphNode = memo(function GraphNode(props: {
   const shadow = ghost ? undefined : e.tier === 'risk' ? 'url(#shadow-risk)' : 'url(#shadow-entity)';
   const labelTop = e.isSubject ? R + LABEL_GAP + 2.5 : R + LABEL_GAP; // Subject label sits at 49.5 in Figma
   const tag = marks.includes('changed') ? 'changed' : marks.includes('unconfirmed') ? 'unconfirmed' : null;
+  // The selection ring keeps 2 px clear of a dashed outline too.
+  const ringR = marks.includes('unconfirmed') || marks.includes('riskPreview') ? OUTLINE_R + OUTLINE_W / 2 + 3 : R + 5;
   return (
     <g
       className={`g-node ${props.cls} ${markClasses(marks)}`}
@@ -215,9 +223,10 @@ const GraphNode = memo(function GraphNode(props: {
             ? <rect className="body" x={-R + 0.75} y={-R + 0.75} width={NODE_SIZE - 1.5} height={NODE_SIZE - 1.5} rx={3.25} />
             : <circle className="body" r={R - 0.75} />}
         </g>
+        {!e.isSubject && <circle className="dash-ring" r={OUTLINE_R} strokeWidth={OUTLINE_W} strokeDasharray={`${OUTLINE_DASH} ${OUTLINE_GAP.toFixed(3)}`} />}
         {e.isSubject
           ? <rect className="ring" x={-R - 5} y={-R - 5} width={NODE_SIZE + 10} height={NODE_SIZE + 10} rx={7} />
-          : <circle className="ring" r={R + 5} />}
+          : <circle className="ring" r={ringR} />}
         <image className="glyph" href={glyph} x={-gs / 2} y={-gs / 2} width={gs} height={gs} />
         <Badges badges={e.badges} y={e.isSubject ? -16 : -13} />
       </g>

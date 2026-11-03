@@ -41,10 +41,12 @@
 /* Camera eases when the frame changes (a new Arrangement, Kharon's ghosts); drags stay immediate. */
 .g-world.easing { transition: transform 520ms cubic-bezier(.45, 0, .25, 1); }
 
-/* Ghost diff (ticket 02): added = dashed teal, hidden = faded to 20%, unconfirmed = dotted orange + tag.
+/* Ghost diff (ticket 02): added = dashed teal, hidden = faded to 20%, unconfirmed = a dashed orange outline + tag.
    Only Unconfirmed gets its own mark once accepted. */
 .g-node.m-added .body { fill-opacity: 0.45; stroke: var(--color-primary); stroke-width: 2; stroke-dasharray: 4 3; }
-.g-node.m-unconfirmed .body { fill-opacity: 0.45; stroke: var(--color-tag-warn); stroke-width: 2.25; stroke-dasharray: 0.5 4; stroke-linecap: round; }
+.g-node .dash-ring { fill: none; stroke-linecap: round; display: none; }
+.g-node.m-unconfirmed .body { fill-opacity: 0.45; stroke-opacity: 0.45; }
+.g-node.m-unconfirmed .dash-ring { display: block; stroke: var(--color-tag-warn); }
 .g-node.m-hidden, .g-link.m-hidden { opacity: 0.2; }
 .g-link.m-added .line, .g-link.m-added .arrow { stroke: var(--color-primary); }
 .g-link.m-added .line { stroke-width: 1.8; stroke-dasharray: 7 5; }
@@ -57,7 +59,7 @@
 .g-node .tag.upd rect { fill: var(--color-tag-danger); }
 .g-node .tag.upd text { fill: #fff; font-size: 9px; }
 /* A pending risk Change (S9) and a Change hovered in the review. */
-.g-node.m-riskPreview .body { stroke: var(--color-risk); stroke-width: 3.5; stroke-dasharray: 4 3; }
+.g-node.m-riskPreview .dash-ring { display: block; stroke: var(--color-risk); }
 .g-node.m-highlight .ring { display: block; stroke: var(--color-primary); stroke-dasharray: 3 3; }
 .g-link.m-highlight .line { stroke-width: 3.5; }
 /* K1: the Links Kharon is reading pulse. */
