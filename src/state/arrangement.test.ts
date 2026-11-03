@@ -33,9 +33,9 @@ describe('viewing another Arrangement', () => {
   });
 
   it('heads a view-only timeline with the Version, not as a Proposal preview', () => {
-    expect(graphView(run(sceneState('S5'), view('timeline'))).timelineHeading).toBe('VERSION 2 · TIMELINE ARRANGEMENT · VIEW ONLY');
-    expect(graphView(sceneState('S6')).timelineHeading).toBe('PREVIEW · TIMELINE ARRANGEMENT · NOT SAVED');
-    expect(graphView(sceneState('S6B')).timelineHeading).toBe('BRANCH B · TIMELINE ARRANGEMENT');
+    expect(graphView(run(sceneState('S5'), view('timeline'))).timelineHeading).toBe('Version 2 · Timeline Arrangement · view only');
+    expect(graphView(sceneState('S6')).timelineHeading).toBe('Preview · Timeline Arrangement · not saved');
+    expect(graphView(sceneState('S6B')).timelineHeading).toBe('Branch B · Timeline Arrangement');
   });
 
   it('choosing the saved Arrangement again ends the view-only choice', () => {
@@ -97,7 +97,7 @@ describe('the flow wins', () => {
     const s = run(sceneState('S5'), view('radial'), { type: 'openVersion', version: 'v1' });
     expect(s.viewArrangement).toBeNull();
     expect(graphView(s).arrangement).toBe('timeline');
-    expect(graphView(s).timelineHeading).toBe('PREVIEW · TIMELINE ARRANGEMENT · NOT SAVED');
+    expect(graphView(s).timelineHeading).toBe('Preview · Timeline Arrangement · not saved');
   });
 
   it('accepting a Proposal lands on the new Version in its saved Arrangement', () => {

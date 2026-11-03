@@ -84,14 +84,14 @@ export const seed: CaseData = {
     },
   ],
   feed: [
-    { id: 'f1', tag: 'Forced Labor', severity: 'warn', title: 'Port authority shifts inspection contract to new vendor, signaling shift in attitude on forced labor compliance', place: 'Rotterdam, NL', time: '2H AGO', insightId: 'ins-port-authority' },
-    { id: 'f2', tag: 'Forced Labor', severity: 'warn', unread: true, title: 'Bulk carrier renamed and reflagged twice in 90 days after listing of its former manager', place: 'Piraeus, GR', time: '5H AGO' },
-    { id: 'f3', tag: 'Forced Labor', severity: 'warn', unread: true, title: 'Textile exporter’s largest customer added to UFLPA Entity List; three tier-2 suppliers share directors', place: 'Ho Chi Minh City, VN', time: '9H AGO' },
-    { id: 'f4', tag: 'Forced Labor', severity: 'warn', title: 'Minority stake in freight forwarder traced to a designated entity through two holding companies', place: 'Dubai, AE', time: '3D AGO' },
-    { id: 'f5', tag: 'Forced Labor', severity: 'warn', title: 'Customs broker fined after screening lapse; contract with regional port operator under review', place: 'Antwerp, BE', time: '2D AGO' },
-    { id: 'f6', tag: 'Forced Labor', severity: 'warn', title: 'Aluminium smelter’s new offtake partner shares an address with a listed trading house', place: 'Istanbul, TR', time: '2D AGO' },
-    { id: 'f7', tag: 'Forced Labor', severity: 'warn', title: 'Recruitment agency named in audit supplied workers to two electronics plants in the watch set', place: 'Penang, MY', time: '3D AGO' },
-    { id: 'f8', tag: 'Forced Labor', severity: 'warn', title: 'Dual-use machine-tool shipment rerouted via third-country distributor after licence denial', place: 'Hamburg, DE', time: '4D AGO' },
+    { id: 'f1', tag: 'Forced Labor', severity: 'warn', title: 'Port authority shifts inspection contract to new vendor, signaling shift in attitude on forced labor compliance', place: 'Rotterdam, NL', time: '2h ago', insightId: 'ins-port-authority' },
+    { id: 'f2', tag: 'Forced Labor', severity: 'warn', unread: true, title: 'Bulk carrier renamed and reflagged twice in 90 days after listing of its former manager', place: 'Piraeus, GR', time: '5h ago' },
+    { id: 'f3', tag: 'Forced Labor', severity: 'warn', unread: true, title: 'Textile exporter’s largest customer added to UFLPA Entity List; three tier-2 suppliers share directors', place: 'Ho Chi Minh City, VN', time: '9h ago' },
+    { id: 'f4', tag: 'Forced Labor', severity: 'warn', title: 'Minority stake in freight forwarder traced to a designated entity through two holding companies', place: 'Dubai, AE', time: '3d ago' },
+    { id: 'f5', tag: 'Forced Labor', severity: 'warn', title: 'Customs broker fined after screening lapse; contract with regional port operator under review', place: 'Antwerp, BE', time: '2d ago' },
+    { id: 'f6', tag: 'Forced Labor', severity: 'warn', title: 'Aluminium smelter’s new offtake partner shares an address with a listed trading house', place: 'Istanbul, TR', time: '2d ago' },
+    { id: 'f7', tag: 'Forced Labor', severity: 'warn', title: 'Recruitment agency named in audit supplied workers to two electronics plants in the watch set', place: 'Penang, MY', time: '3d ago' },
+    { id: 'f8', tag: 'Forced Labor', severity: 'warn', title: 'Dual-use machine-tool shipment rerouted via third-country distributor after licence denial', place: 'Hamburg, DE', time: '4d ago' },
   ],
   insights: [
     {
@@ -99,7 +99,7 @@ export const seed: CaseData = {
       subjectId: 'sury',
       title: 'Port Authority Shifts Inspection Contract to New Vendor, Signaling Shift in Attitude on Forced Labor Compliance',
       dek: 'Rotterdam’s port authority has reassigned its container-inspection contract to a new vendor after an audit found gaps in screening throughput under the incumbent. The three-year deal marks a tightening posture on forced-labor compliance, an area regulators and shippers have pushed harder on this year.',
-      time: '2H Ago',
+      time: '2h ago',
       place: 'Rotterdam, NL',
       body: [
         'The port authority awarded a three-year container-inspection contract to Havenwacht Inspectie B.V., ending a nine-year relationship with the incumbent after an internal audit found screening throughput below the authority’s own threshold for two consecutive quarters.',

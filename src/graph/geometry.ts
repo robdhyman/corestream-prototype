@@ -34,10 +34,10 @@ const TITLE: Record<Link['kind'], string> = {
   contract: 'Contract', regulatory: 'Regulatory', affiliation: 'Affiliation', research: 'Research',
 };
 
-/** Link label as Figma writes it: "Ownership · 62%", "Frmr Supply". */
+/** Link label as Figma writes it, in sentence case (ticket 17): "Ownership · 62%", "Frmr supply". */
 export function linkLabel(l: Link): string {
   const kind = TITLE[l.kind];
-  if (l.former) return `Frmr ${kind}`;
+  if (l.former) return `Frmr ${kind.toLowerCase()}`;
   return l.pct != null ? `${kind} · ${l.pct}%` : kind;
 }
 

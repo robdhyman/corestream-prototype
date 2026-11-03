@@ -105,7 +105,7 @@ describe('asking from the card', () => {
     expect(s.kharonOpen).toBe(true);
     expect(s.hoverCard).toBeNull();
     expect(s.selectedEntity).toBe('hct');
-    expect(s.turns[0]).toEqual({ kind: 'question', text: 'Who settled the trust?' });
+    expect(s.turns[0]).toMatchObject({ kind: 'question', text: 'Who settled the trust?' });
   });
 
   it('ignores an empty question', () => {

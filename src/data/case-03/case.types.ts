@@ -209,7 +209,7 @@ export interface Screen {
   id: 'S1' | 'S2' | 'K1' | 'S3' | 'S4' | 'S5' | 'S6' | 'S7' | 'S8' | 'S9';
   title: string;
   flow?: 1 | 2 | 3 | 4 | 5;
-  clock: ISODateTime;           // story clock; Feed ages ('2H AGO') count back from it
+  clock: ISODateTime;           // story clock; Feed ages ('2h ago') count back from it
   version: Version['id'];
   viewing?: Version['id'];
   left: 'feed' | 'kharon';

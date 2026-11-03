@@ -5,7 +5,7 @@
 
 import { caseData } from '../data/case';
 import {
-  acceptedCount, allAccepted, proposalById, shortName, versionContent, versionMeta,
+  acceptedCount, allAccepted, proposalById, shortName, story, versionContent, versionMeta,
   type ArrangementId, type Decisions, type ProposalId, type VersionId,
 } from '../data/story';
 import {
@@ -25,17 +25,17 @@ export type Then =
   | { kind: 'linkSources'; linkId: string };
 
 export type Turn =
-  | { kind: 'question'; text: string }
+  | { kind: 'question'; text: string; at: string }
   | { kind: 'work'; steps: Step[]; done: number; status: 'running' | 'done' | 'stopped'; trace: boolean }
   | { kind: 'exposure'; compact: boolean }
   | { kind: 'links'; entityId: string; linkIds: string[] }
   | { kind: 'linkSources'; linkId: string }
   | { kind: 'cant'; reason: 'bvi' | 'offScript' }
-  | { kind: 'note'; text: string }
+  | { kind: 'note'; text: string; at?: string }
   | { kind: 'proposal'; id: ProposalId; status: 'open' | 'applied' | 'rejected' | 'setAside'; applied?: number }
   | { kind: 'saved'; version: VersionId; applied: number; of: number }
   | { kind: 'generate' }
-  | { kind: 'changed' };
+  | { kind: 'changed'; at: string };
 
 export interface Run { steps: Step[]; done: number; pace: number; then: Then; prompt: string; turn: number }
 
@@ -47,6 +47,8 @@ export interface FlowState {
   selectedEntity: string | null;
   selectedLink: string | null;
   hoverCard: (Focus & { pinned: boolean }) | null;
+  /** The Entity whose name is hovered in Kharon, lit on the graph (ticket 18). */
+  peek: string | null;
 
   kharonOpen: boolean;
   focus: Focus | null;
@@ -84,6 +86,7 @@ export type Action =
   | { type: 'setTab'; tab: PanelTab }
   | { type: 'selectFeed'; id: string }
   | { type: 'hover'; card: FlowState['hoverCard'] }
+  | { type: 'peek'; id: string | null }
   | { type: 'ask'; focus: Focus; text?: string }
   | { type: 'toggleKharon' }
   | { type: 'send'; text: string }
@@ -117,6 +120,7 @@ export const initialState: FlowState = {
   selectedEntity: null,
   selectedLink: null,
   hoverCard: null,
+  peek: null,
   kharonOpen: false,
   focus: null,
   turns: [],
@@ -158,6 +162,18 @@ function nextPrompt(s: FlowState): string {
   return TRACE_QUESTION;
 }
 
+/** Ticket 17: the story clock a new exchange is stamped with. A step the script places in a scene takes that scene's
+ *  clock (K1 10:03, S4 10:10, S6 10:20, S7 10:35, S9 15:02), so the thread agrees with History. Anything else, and
+ *  anything that would run backwards, comes a minute after the last exchange. Day 3 starts at S8's clock. */
+function askedAt(s: FlowState, scene?: 'K1' | 'S4' | 'S6' | 'S7' | 'S9'): string {
+  const clock = (id: string) => Date.parse(story.screens.find((x) => x.id === id)!.clock);
+  const last = [...s.turns].reverse().find((t) => 'at' in t && t.at);
+  const after = Math.max(last && 'at' in last && last.at ? Date.parse(last.at) + 60_000 : 0, clock(s.day === 3 ? 'S8' : 'K1'));
+  return new Date(scene ? Math.max(clock(scene), after) : after).toISOString().replace('.000Z', 'Z');
+}
+
+const question = (s: FlowState, text: string, scene?: Parameters<typeof askedAt>[1]): Turn => ({ kind: 'question', text, at: askedAt(s, scene) });
+
 function push(s: FlowState, ...turns: Turn[]): FlowState {
   return { ...s, turns: [...s.turns, ...turns] };
 }
@@ -169,9 +185,9 @@ function setAside(s: FlowState): FlowState {
   return { ...s, turns, openProposal: null, reviewOpen: false, highlight: null };
 }
 
-function startRun(s: FlowState, prompt: string, steps: Step[], then: Then, opts: { trace?: boolean; question?: string } = {}): FlowState {
+function startRun(s: FlowState, prompt: string, steps: Step[], then: Then, opts: { trace?: boolean; question?: string; scene?: Parameters<typeof askedAt>[1] } = {}): FlowState {
   const base = setAside(stopRun(s, false));
-  const turns: Turn[] = [...base.turns, { kind: 'question', text: opts.question ?? prompt }, { kind: 'work', steps, done: 0, status: 'running', trace: !!opts.trace }];
+  const turns: Turn[] = [...base.turns, question(base, opts.question ?? prompt, opts.scene), { kind: 'work', steps, done: 0, status: 'running', trace: !!opts.trace }];
   return {
     ...base, kharonOpen: true, turns, prompts: [], reviewOpen: false,
     run: { steps, done: 0, pace: opts.trace ? K1_PACE : PACE, then, prompt, turn: turns.length - 1 },
@@ -225,7 +241,7 @@ function finishRun(s: FlowState): FlowState {
 
 function offerBranch(s: FlowState): FlowState {
   return {
-    ...push(s, { kind: 'note', text: NOTES.branchOffer }, { kind: 'proposal', id: 'P2', status: 'open' }),
+    ...push(s, { kind: 'note', text: NOTES.branchOffer, at: askedAt(s, 'S6') }, { kind: 'proposal', id: 'P2', status: 'open' }),
     kharonOpen: true, openProposal: 'P2', decisions: { ...s.decisions, P2: allAccepted('P2') }, reviewOpen: false, prompts: ['Back to Version 2'],
   };
 }
@@ -260,27 +276,27 @@ function viewArrangement(s: FlowState, a: ArrangementId): FlowState {
 }
 
 function intent(s: FlowState, text: string, i: Intent): FlowState {
-  const say = (note: string, prompts: string[]) => ({ ...push(s, { kind: 'question', text }, { kind: 'note', text: note }), kharonOpen: true, prompts });
+  const say = (note: string, prompts: string[]) => ({ ...push(s, question(s, text), { kind: 'note', text: note }), kharonOpen: true, prompts });
   switch (i.kind) {
     case 'trace':
-      return startRun({ ...s, focus: { kind: 'entity', id: 'merid' }, selectedEntity: 'merid', panelTab: 'record' }, TRACE_QUESTION, TRACE_STEPS, { kind: 'exposure' }, { trace: true, question: text });
+      return startRun({ ...s, focus: { kind: 'entity', id: 'merid' }, selectedEntity: 'merid', panelTab: 'record' }, TRACE_QUESTION, TRACE_STEPS, { kind: 'exposure' }, { trace: true, question: text, scene: 'K1' });
     case 'continueTrace': {
       const last = [...s.turns].reverse().find((t) => t.kind === 'work');
       if (!last || last.kind !== 'work' || last.status !== 'stopped' || !last.trace) return intent(s, text, { kind: 'trace' });
       return startRun(s, text, last.steps.slice(last.done), { kind: 'exposure' });
     }
     case 'startOver':
-      return startRun({ ...s, turns: [], answerGhost: false, focus: { kind: 'entity', id: 'merid' }, selectedEntity: 'merid', panelTab: 'record' }, TRACE_QUESTION, TRACE_STEPS, { kind: 'exposure' }, { trace: true });
+      return startRun({ ...s, turns: [], answerGhost: false, focus: { kind: 'entity', id: 'merid' }, selectedEntity: 'merid', panelTab: 'record' }, TRACE_QUESTION, TRACE_STEPS, { kind: 'exposure' }, { trace: true, scene: 'K1' });
     case 'showUnconfirmed':
       if (!answered(s)) return offScript(s, text);
-      return { ...push(s, { kind: 'question', text }, { kind: 'note', text: NOTES.shownUnconfirmed }), zhou: 'shown', answerGhost: true, prompts: ['Add this path to the Insight'] };
+      return { ...push(s, question(s, text), { kind: 'note', text: NOTES.shownUnconfirmed }), zhou: 'shown', answerGhost: true, prompts: ['Add this path to the Insight'] };
     case 'checkBvi':
       return startRun(s, text, BVI_STEPS, { kind: 'cantBvi' });
     case 'propose': {
       if (s.versions.includes('v2')) return say(NOTES.pathAlreadyIn, ['Generate new Insight']);
       const preset = allAccepted('P1');
       if (i.sourcedOnly) proposalById('P1').changes.forEach((c) => { if (c.confidence === 'low') preset[c.id] = false; });
-      return startRun({ ...s, viewing: 'v1' }, text, PROPOSE_STEPS, { kind: 'propose', preset }, { question: i.sourcedOnly ? text : PROPOSE_QUESTION });
+      return startRun({ ...s, viewing: 'v1' }, text, PROPOSE_STEPS, { kind: 'propose', preset }, { question: i.sourcedOnly ? text : PROPOSE_QUESTION, scene: 'S4' });
     }
     case 'openVersion':
       if (!s.versions.includes(i.version)) return offScript(s, text);
@@ -294,7 +310,7 @@ function intent(s: FlowState, text: string, i: Intent): FlowState {
       if (s.gen) return say(NOTES.alreadyDrafting, []);
       if (!s.versions.includes('v2')) return say(NOTES.needVersion2, [answered(s) ? 'Add this path to the Insight' : TRACE_QUESTION]);
       return {
-        ...push(setAside(stopRun(s, false)), { kind: 'question', text: 'Generate new Insight' }, { kind: 'generate' }),
+        ...push(setAside(stopRun(s, false)), question(s, 'Generate new Insight', 'S7'), { kind: 'generate' }),
         kharonOpen: true, viewing: 'v2', insightShown: 'draft', panelTab: 'insight', prompts: [],
         gen: { stage: 'outline', checks: 0, outline: ['o1', 'o2', 'o3'] },
       };
@@ -311,7 +327,7 @@ function intent(s: FlowState, text: string, i: Intent): FlowState {
 }
 
 function offScript(s: FlowState, text: string): FlowState {
-  return { ...push(s, { kind: 'question', text }, { kind: 'cant', reason: 'offScript' }), kharonOpen: true, prompts: uniq([nextPrompt(s), ...s.prompts]).slice(0, 3) };
+  return { ...push(s, question(s, text), { kind: 'cant', reason: 'offScript' }), kharonOpen: true, prompts: uniq([nextPrompt(s), ...s.prompts]).slice(0, 3) };
 }
 
 function accept(s: FlowState, p: ProposalId): FlowState {
@@ -360,6 +376,7 @@ function step(s: FlowState, a: Action): FlowState {
     case 'clearSelection': return { ...s, selectedEntity: null, selectedLink: null, hoverCard: null };
     case 'setTab': return { ...s, panelTab: a.tab };
     case 'hover': return { ...s, hoverCard: a.card };
+    case 'peek': return { ...s, peek: a.id };
     case 'selectFeed': {
       if (s.updateOpened === false && s.day === 3 && (a.id === SURY_FEED_ID || a.id === PUBLISHED_FEED_ID)) return reducer(s, { type: 'openUpdate' });
       if (a.id === PUBLISHED_FEED_ID) return { ...s, feedId: a.id, insightShown: 'published', panelTab: 'insight' };
@@ -440,7 +457,7 @@ function step(s: FlowState, a: Action): FlowState {
         ...settled, noticeOpen: false, bell: 0, updateOpened: true,
         versions: settled.versions.includes('v3') ? settled.versions : [...settled.versions, 'v3'], viewing: 'v3',
         feedId: SURY_FEED_ID, insightShown: 'version', kharonOpen: true, focus: { kind: 'entity', id: 'xpu' },
-        turns: [{ kind: 'changed' }, { kind: 'proposal', id: 'P3', status: 'open' }],
+        turns: [{ kind: 'changed', at: askedAt({ ...settled, turns: [] }, 'S9') }, { kind: 'proposal', id: 'P3', status: 'open' }],
         openProposal: 'P3', decisions: { ...settled.decisions, P3: allAccepted('P3') }, reviewOpen: false,
         selectedEntity: 'xpu', selectedLink: null, panelTab: 'record', prompts: ['Open the Insight you published'], answerGhost: false,
       };

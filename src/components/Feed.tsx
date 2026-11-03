@@ -1,10 +1,10 @@
 // Feed column (Figma 117:5656): feed-head, a list of Feed/Card (28:386), and the synthetic-data footer.
 // Ticket 09: the published Draft Insight joins the top of the Main Feed (S7), and the Update (S8) tags the two
-// affected cards UPDATED and lifts them to the top. Clicking an UPDATED card opens what changed (S9).
+// affected cards "Updated" and lifts them to the top. Clicking an updated card opens what changed (S9).
 
 import { caseData } from '../data/case';
 import { age } from '../data/from-case-03';
-import { draftInsight, story } from '../data/story';
+import { draftInsight, story, tagLabel } from '../data/story';
 import type { FeedItem } from '../data/types';
 import { PUBLISHED_FEED_ID } from '../state/flow';
 import { useApp } from '../state/store';
@@ -23,12 +23,12 @@ export function useFeedCards(): FeedCardView[] {
   if (state.published) {
     cards = [{
       id: PUBLISHED_FEED_ID, tag: draftInsight.tag, severity: 'danger', title: draftInsight.cardTitle, place: draftInsight.place,
-      time: state.day === 1 ? 'JUST NOW' : age(draftInsight.publishedAt, clock), insightId: draftInsight.id,
+      time: state.day === 1 ? 'Just now' : age(draftInsight.publishedAt, clock), insightId: draftInsight.id,
     }, ...cards];
   }
   if (state.day === 3) {
     const affected = new Set<string>(story.update.affectedInsightIds);
-    const hit = cards.filter((c) => c.insightId && affected.has(c.insightId)).map((c) => ({ ...c, updated: true, time: 'TODAY' }));
+    const hit = cards.filter((c) => c.insightId && affected.has(c.insightId)).map((c) => ({ ...c, updated: true, time: 'Today' }));
     const order = (c: FeedCardView) => (c.insightId === 'ins-sury' ? 0 : 1);
     cards = [...hit.sort((a, b) => order(a) - order(b)), ...cards.filter((c) => !c.insightId || !affected.has(c.insightId))];
   }
@@ -52,7 +52,7 @@ export function Feed() {
           <FeedCard key={f.id} item={f} active={state.feedId === f.id} onSelect={() => dispatch({ type: 'selectFeed', id: f.id })} />
         ))}
       </div>
-      <p className="h-[46px] shrink-0 border-t border-content-border px-2 py-1.5 font-mono text-[11px] leading-[1.5] uppercase text-text-muted">
+      <p className="h-[46px] shrink-0 border-t border-content-border px-2 py-1.5 font-mono text-[11px] leading-[1.5] text-text-muted">
         Prototype · all entities, identifiers and events are synthetic.
       </p>
     </aside>
@@ -79,10 +79,10 @@ function FeedCard({ item, active, onSelect }: { item: FeedCardView; active: bool
     >
       <div className="flex min-h-[22px] items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className={`rounded-xs px-1.5 font-mono text-tag uppercase tracking-[0.05em] ${unread ? `${tone.fill} py-1 font-semibold` : `border ${tone.line} py-[3px] font-medium`}`}>
-            {item.tag}
+          <span className={`rounded-xs px-1.5 font-mono text-tag ${unread ? `${tone.fill} py-1 font-semibold` : `border ${tone.line} py-[3px] font-medium`}`}>
+            {tagLabel(item.tag)}
           </span>
-          {item.updated && <span className="rounded-xs bg-tag-info-bg px-1.5 py-1 font-mono text-tag font-semibold uppercase tracking-[0.05em] text-tag-info">Updated</span>}
+          {item.updated && <span className="rounded-xs bg-tag-info-bg px-1.5 py-1 font-mono text-tag font-semibold text-tag-info">Updated</span>}
           {unread && <span className="size-2 rounded-full bg-unread" aria-label="Unread" />}
         </div>
         <button type="button" aria-label="Bookmark" onClick={(e) => e.stopPropagation()} className="flex size-[22px] items-center justify-center rounded-[11px] text-text-muted opacity-0 hover:bg-surface-50 focus-visible:opacity-100 group-hover:opacity-100">
@@ -90,7 +90,7 @@ function FeedCard({ item, active, onSelect }: { item: FeedCardView; active: bool
         </button>
       </div>
       <h3 className={`min-h-[45px] text-card-title text-pretty text-feed-ink ${unread ? 'font-semibold' : 'font-medium'}`}>{item.title}</h3>
-      <div className="flex items-center justify-between font-mono text-meta font-medium uppercase text-feed-ink">
+      <div className="flex items-center justify-between font-mono text-meta font-medium text-feed-ink">
         <span>{item.place}</span>
         <span>{item.time}</span>
       </div>

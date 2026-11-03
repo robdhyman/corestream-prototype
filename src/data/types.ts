@@ -115,7 +115,7 @@ export interface CaseData {
 /**
  * Marks the graph draws on top of a Version (ticket 02's ghost diff):
  * added = dashed teal (a Proposal's or Kharon's answer's new items), hidden = faded to 20%,
- * unconfirmed = dotted orange with an UNCONFIRMED tag, changed = UPDATED tag (a Source update),
+ * unconfirmed = dotted orange with an "Unconfirmed" tag, changed = "Updated" tag (a Source update),
  * riskPreview = a pending risk Change, progress = Links Kharon is reading, highlight = hovered Change.
  */
 export type EntityMark = 'added' | 'hidden' | 'unconfirmed' | 'changed' | 'riskPreview' | 'highlight';

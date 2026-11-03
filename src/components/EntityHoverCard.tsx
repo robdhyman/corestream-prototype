@@ -3,6 +3,7 @@
 // so S2 → K1 is unchanged. The card pins while the box has focus or text; Esc or a click on the canvas dismisses it.
 
 import { useEffect, useState, type ReactNode } from 'react';
+import { sentence } from '../data/story';
 import { KMark } from '../kharon/KMark';
 import { Confidence } from '../kharon/atoms';
 import { entityCard, type ExposureBlock, type RiskBlock } from '../state/hoverCard';
@@ -36,7 +37,7 @@ export function EntityHoverCard({ id, found }: { id: string; found: boolean }) {
       onClick={() => dispatch({ type: 'selectEntity', id })}
       className="self-start rounded-md border border-button-border bg-button-bg px-2.5 py-[5px] text-[12px] font-medium text-button-text hover:bg-white"
     >
-      See More
+      See more
     </button>
   );
 
@@ -63,7 +64,7 @@ export function EntityHoverCard({ id, found }: { id: string; found: boolean }) {
         <>
           <div>
             <div className="font-mono text-[12px] font-semibold leading-[1.3] text-graph-text">{e.name}</div>
-            <div className="mt-0.5 text-[11.5px] text-text-muted">{cap(e.kind)}</div>
+            <div className="mt-0.5 text-[11.5px] text-text-muted">{sentence(e.kind)}</div>
           </div>
           <ul className="flex flex-col gap-1 text-[11.5px] text-text">
             <Fact icon="pi-map-marker">{e.place}</Fact>
@@ -102,7 +103,7 @@ export function EntityHoverCard({ id, found }: { id: string; found: boolean }) {
           <div className="rounded-lg border border-content-border px-3 pb-2 pt-2.5 focus-within:border-agent">
             <div className="flex items-center gap-1.5 text-[11.5px] text-text-soft">
               <KMark size={14} />
-              <span className="truncate">{e.name} · {cap(e.kind)}</span>
+              <span className="truncate">{e.name} · {sentence(e.kind)}</span>
             </div>
             <textarea
               autoFocus
@@ -211,4 +212,3 @@ function Rows({ rows, dot, bold }: { rows: string[]; dot: string; bold?: (row: s
 }
 
 const count = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`;
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

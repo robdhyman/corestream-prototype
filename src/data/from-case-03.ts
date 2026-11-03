@@ -37,10 +37,10 @@ const OWNERSHIP: Record<string, Point> = {
   coro: { x: 628, y: 1090 }, kaveri: { x: 868, y: 1090 }, mundra: { x: 1108, y: 1090 }, felix: { x: 1108, y: 1215 },
 };
 
-/** '2H AGO', '3D AGO': Feed ages count back from the screen's story clock. */
+/** '2h ago', '3d ago': Feed ages count back from the screen's story clock. */
 export function age(iso: string, clock: string): string {
   const h = Math.max(0, Math.round((Date.parse(clock) - Date.parse(iso)) / 3_600_000));
-  return h < 24 ? `${h}H AGO` : `${Math.round(h / 24)}D AGO`;
+  return h < 24 ? `${h}h ago` : `${Math.round(h / 24)}d ago`;
 }
 
 export function fromCase03(): CaseData {
@@ -99,7 +99,7 @@ export function fromCase03(): CaseData {
 
   const insights: Insight[] = c.insights.filter((i) => i.status === 'published').map((i) => ({
     id: i.id, title: i.title, dek: i.dek, place: i.place, body: i.paras, subjectId: i.subjectId,
-    time: age(i.publishedAt, s1.clock).replace('AGO', 'Ago'),
+    time: age(i.publishedAt, s1.clock),
   }));
 
   return { entities, links, arrangements: [radial, ownership], feed, insights };

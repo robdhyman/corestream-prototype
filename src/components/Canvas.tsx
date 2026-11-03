@@ -1,9 +1,9 @@
 // Graph canvas (Figma "Canvas 1:1", 117:5669): the graph stage plus its chrome:
-// the Kharon `k` button (agent 2210:21961) top-left, Open In ClearView top-right, zoom bottom-right.
+// the Kharon `k` button (agent 2210:21961) top-left, Open in ClearView top-right, zoom bottom-right.
 // Ticket 09 adds the hover cards with Ask Kharon, the Version banner, the ghost-diff legend, the toast and
 // the prototype's story-clock pill (the one control that isn't product UI: it moves the story two days on).
 
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Graph } from '../graph/Graph';
 import { Timeline } from '../graph/Timeline';
 import { usePanZoom, type CameraTarget } from '../graph/usePanZoom';
@@ -34,6 +34,16 @@ export function Canvas() {
     };
   }, [arrangement, view.focus]);
   const pz = usePanZoom(stageRef, arrangement.size, target);
+  // Ticket 18: a selection made off the graph (an Entity's name in Kharon) brings its node into view if it's
+  // off-screen. When the flow re-frames the camera in the same step, its framing wins.
+  const { reveal } = pz;
+  const framedKey = useRef(target.key);
+  useEffect(() => {
+    const retargeted = framedKey.current !== target.key;
+    framedKey.current = target.key;
+    const at = state.selectedEntity && !timeline ? arrangement.positions[state.selectedEntity] : null;
+    if (at && !retargeted) reveal(at);
+  }, [state.selectedEntity, target.key, arrangement, timeline, reveal]);
 
   const links = useMemo(() => caseData.links.filter((l) => view.linkIds.has(l.id)), [view.linkIds]);
 
@@ -75,6 +85,7 @@ export function Canvas() {
             easing={pz.easing}
             selectedEntity={state.selectedEntity}
             selectedLink={state.selectedLink}
+            peek={state.peek}
             marks={view.marks}
             onSelectEntity={(id) => dispatch({ type: 'selectEntity', id })}
             onSelectLink={(id) => dispatch({ type: 'selectLink', id })}
@@ -85,7 +96,7 @@ export function Canvas() {
       </div>
       {timeline && (
         <div className="absolute inset-0 px-6 pb-16 pt-16">
-          <Timeline linkIds={view.linkIds} heading={view.timelineHeading} selectedEntity={state.selectedEntity} onSelectEntity={(id) => dispatch({ type: 'selectEntity', id })} />
+          <Timeline linkIds={view.linkIds} heading={view.timelineHeading} selectedEntity={state.selectedEntity} peek={state.peek} onSelectEntity={(id) => dispatch({ type: 'selectEntity', id })} />
         </div>
       )}
 
@@ -95,7 +106,7 @@ export function Canvas() {
         type="button"
         className="absolute right-4 top-4 flex items-center gap-[7px] rounded-md border border-button-border bg-button-bg px-[10.5px] py-[7px] text-[14px] font-medium leading-[17px] text-button-text hover:bg-white"
       >
-        Open In ClearView
+        Open in ClearView
         <i className="pi pi-arrow-up-right" aria-hidden />
       </button>
 
@@ -201,7 +212,7 @@ const LEGEND_KEY: Record<LegendKey, { label: string; cls: string }> = {
 
 function Legend({ title, keys }: { title: string; keys: LegendKey[] }) {
   return (
-    <div className="absolute bottom-4 left-4 z-10 flex items-center gap-3 rounded-md border border-content-border bg-white px-2.5 py-[7px] font-mono text-[10.5px] uppercase text-text-muted">
+    <div className="absolute bottom-4 left-4 z-10 flex items-center gap-3 rounded-md border border-content-border bg-white px-2.5 py-[7px] font-mono text-[10.5px] text-text-muted">
       <b className="font-semibold text-text">{title}</b>
       {keys.map((k) => (
         <span key={k} className="flex items-center gap-1.5"><i className={`inline-block w-5 ${LEGEND_KEY[k].cls}`} />{LEGEND_KEY[k].label}</span>
@@ -238,7 +249,7 @@ function StoryClock() {
       onClick={() => dispatch(restart ? { type: 'load', state: initialState } : { type: 'skipAhead' })}
       className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[#16181b] px-3.5 py-2 font-mono text-[11px] text-[#f1f2f3] shadow-float hover:bg-[#24272c]"
     >
-      <span className="text-[#7fd3dc]">PROTOTYPE</span>
+      <span className="text-[#7fd3dc]">Prototype</span>
       {restart ? 'Walk it again from S1' : 'Two days later: 30 Oct, 15:00'}
       <i className="pi pi-arrow-right !text-[11px]" aria-hidden />
     </button>

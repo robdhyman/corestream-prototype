@@ -43,7 +43,7 @@ export interface VersionContent {
   linkIds: Set<string>;
   /** Accepted Unconfirmed items stay dotted orange (ticket 02). */
   unconfirmed: Set<string>;
-  /** Entities a Source update touched: UPDATED tag. */
+  /** Entities a Source update touched: "Updated" tag. */
   changed: Set<string>;
   riskHigh: Set<string>;
   /** Listings added after Version 1 (the Update). */
@@ -118,5 +118,9 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 export const monthYear = (iso: string) => `${MONTHS[+iso.slice(5, 7) - 1]} ${iso.slice(0, 4)}`;
 /** '2021-04-21' → '21 Apr 2021' */
 export const dayMonthYear = (iso: string) => `${+iso.slice(8, 10)} ${MONTHS[+iso.slice(5, 7) - 1]} ${iso.slice(0, 4)}`;
+/** Sentence case for display text that arrives lowercase (Link details, kinds): first letter up, the rest kept. */
+export const sentence = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** Topic tags in sentence case for display: 'Forced Labor' → 'Forced labor' (ticket 17). Tags carry no acronyms. */
+export const tagLabel = (t: string) => t.charAt(0) + t.slice(1).toLowerCase();
 /** '2026-10-28T10:12:00Z' → '28 Oct · 10:12' (story clock, UTC) */
 export const stamp = (iso: string) => `${+iso.slice(8, 10)} ${MONTHS[+iso.slice(5, 7) - 1]} · ${iso.slice(11, 16)}`;

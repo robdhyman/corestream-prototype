@@ -4,7 +4,7 @@
 
 import type { Confidence, Entity } from '../data/types';
 import { entityById, linkById } from '../data/case';
-import { monthYear, story } from '../data/story';
+import { monthYear, sentence, story } from '../data/story';
 import { askEntityPrompt } from '../kharon/script';
 import { inVersion, type GraphView } from './graphView';
 
@@ -54,7 +54,7 @@ export function entityCard(view: GraphView, id: string): EntityCard {
   const onPaths = EXPOSURE_PATHS.filter((p) => p.entityIds.has(id));
   const exposure = onPaths
     .filter((p) => p.linkIds.every((l) => view.content.linkIds.has(l)))
-    .map((p) => ({ title: p.label, confidence: p.confidence, rows: p.summary.replace(/\.$/, '').split(/\s[←→]\s/) }));
+    .map((p) => ({ title: p.label, confidence: p.confidence, rows: p.summary.replace(/\.$/, '').split(/\s[←→]\s/).map(sentence) }));
   const drawn = onPaths.some((p) => p.linkIds.every((l) => view.linkIds.has(l)));
 
   return {

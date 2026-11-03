@@ -26,8 +26,8 @@ export const sourcesSteps: Step[] = [{ title: 'Reading the sources for this Link
 export const EXPOSURE_LEAD = s3.answer!;
 export const ZHOU_DOUBT = s3.lowConfidence!.text;
 export const PATHS = [
-  { title: 'Path 1 · Ownership', from: 'merid', hops: ['L02', 'L04', 'L07', 'L08'] },
-  { title: 'Path 2 · One person', from: 'merid', hops: ['L05', 'L06'] },
+  { n: 1, name: 'Ownership', from: 'merid', hops: ['L02', 'L04', 'L07', 'L08'] },
+  { n: 2, name: 'One person', from: 'merid', hops: ['L05', 'L06'] },
 ] as const;
 /** S9's short path from the Subject up to XPU. */
 export const UPDATE_PATH = { from: 'sury', hops: ['L01', 'L02', 'L04'] } as const;
@@ -35,12 +35,12 @@ export const UPDATE_PATH = { from: 'sury', hops: ['L01', 'L02', 'L04'] } as cons
 /** How each hop reads when walking upstream from the lower Entity to the upper one. */
 export const HOP_PHRASE: Record<string, string> = {
   L01: '62% owned by',
-  L02: 'held 45% by',
-  L04: 'settled by',
-  L07: 'joint lab with · 2019–',
+  L02: 'Held 45% by',
+  L04: 'Settled by',
+  L07: 'Joint lab with · 2019–',
   L08: '100% owned by',
-  L05: 'director: same person? name and city match',
-  L06: 'dean of engineering at',
+  L05: 'Director: same person? Name and city match',
+  L06: 'Dean of engineering at',
 };
 
 /** F1: what Kharon had when it was stopped, by steps finished. */

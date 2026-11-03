@@ -9,7 +9,7 @@ import { useState, type ReactNode } from 'react';
 import { caseData, entityById, linkById } from '../data/case';
 import type { Entity, Link } from '../data/types';
 import {
-  acceptedCount, dayMonthYear, draftInsight, proposalById, stamp, story, suryInsight, versionMeta, type VersionId,
+  acceptedCount, dayMonthYear, draftInsight, proposalById, sentence, stamp, story, suryInsight, tagLabel, versionMeta, type VersionId,
 } from '../data/story';
 import { linkLabel } from '../graph/geometry';
 import { hashId } from '../graph/layout';
@@ -28,7 +28,7 @@ const GLYPH = { domain, person, anchor, description, account_balance: accountBal
 
 export function Panel() {
   const { state, dispatch } = useApp();
-  const tabs: [PanelTab, string][] = [['insight', 'Insight'], ['record', 'Record Details'], ['history', 'History']];
+  const tabs: [PanelTab, string][] = [['insight', 'Insight'], ['record', 'Record details'], ['history', 'History']];
   return (
     <aside className="flex w-[432px] shrink-0 flex-col border-l border-content-border bg-white">
       <div role="tablist" className="flex shrink-0 border-b border-content-border">
@@ -91,10 +91,10 @@ function InsightView() {
         <span className="text-[12px] text-text-muted">{CHIP[v].by}</span>
       </VersionRow>
       <header className="flex flex-col gap-3 px-4 pb-3">
-        <h1 className="text-h1 font-medium capitalize text-text">{ins.title}</h1>
+        <h1 className="text-h1 font-medium text-text">{ins.title}</h1>
         <p className="text-dek text-text">{ins.dek}</p>
       </header>
-      <MetaRow time={state.day === 3 ? '2D Ago' : ins.time} place={ins.place} />
+      <MetaRow time={state.day === 3 ? '2d ago' : ins.time} place={ins.place} />
       {(v === 'v3' || v === 'v4') && (
         <Callout title="Source update">XPU added to the US Entity List on 30 Oct. It settled the trust that holds 45% of Tarnwell. The text below was written for Version 1.</Callout>
       )}
@@ -108,7 +108,7 @@ function InsightView() {
 function MetaRow({ time, place }: { time: string; place: string }) {
   return (
     <div className="flex items-center justify-between border-y border-divider px-4 py-3">
-      <div className="flex items-center gap-1.5 text-[12px] font-medium uppercase leading-[1.5] tracking-[0.02em] text-text-muted">
+      <div className="flex items-center gap-1.5 text-[12px] font-medium leading-[1.5] tracking-[0.02em] text-text-muted">
         <span>{time}</span><span>|</span><span>{place}</span>
       </div>
       <div className="flex gap-2 text-button-text">
@@ -122,7 +122,7 @@ function MetaRow({ time, place }: { time: string; place: string }) {
 function Callout({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="mx-4 flex flex-col gap-2 rounded-md border border-content-border bg-highlight px-3 py-2.5">
-      <h6 className="font-mono text-[10.5px] font-medium uppercase tracking-[0.05em] text-text-muted">{title}</h6>
+      <h6 className="font-mono text-[10.5px] font-medium text-text-muted">{title}</h6>
       <div className="text-[12px] leading-[1.4] text-text-muted">{children}</div>
     </div>
   );
@@ -138,7 +138,7 @@ function DraftInsight() {
   const g = state.gen; if (!g) return null;
   const head = (
     <VersionRow>
-      <span className="rounded-xs border border-[#7dd3fc] bg-tag-info-bg px-1.5 py-[3px] font-mono text-tag font-medium uppercase tracking-[0.05em] text-tag-info">Draft</span>
+      <span className="rounded-xs border border-[#7dd3fc] bg-tag-info-bg px-1.5 py-[3px] font-mono text-tag font-medium text-tag-info">Draft</span>
       <span className="text-[12px] text-text-muted">Kharon · from Version 2 · not published</span>
     </VersionRow>
   );
@@ -191,7 +191,7 @@ function PublishedInsight() {
   return (
     <article className="flex flex-col gap-5 pb-8 pt-4">
       <VersionRow>
-        <span className="rounded-xs border border-[#fca5a5] bg-tag-danger-bg px-1.5 py-[3px] font-mono text-tag font-medium uppercase tracking-[0.05em] text-tag-danger">{draftInsight.tag}</span>
+        <span className="rounded-xs border border-[#fca5a5] bg-tag-danger-bg px-1.5 py-[3px] font-mono text-tag font-medium text-tag-danger">{draftInsight.tag}</span>
         <span className="text-[12px] text-text-muted">Published · from Version 2 · Kharon · approved by you</span>
       </VersionRow>
       <header className="flex flex-col gap-3 px-4">
@@ -249,10 +249,10 @@ function History() {
               <button type="button" onClick={() => dispatch({ type: 'openVersion', version: v })} className="-mx-1.5 -my-1 flex w-full flex-col gap-0.5 rounded-md px-1.5 py-1 text-left hover:bg-highlight">
                 <span className="flex items-center gap-1.5 text-[12.5px] font-semibold">
                   {versionMeta(v).label}
-                  {cur && <span className="rounded-xs border border-form-border bg-surface-100 px-1.5 py-0.5 font-mono text-[10px] font-medium uppercase text-text-muted">Viewing</span>}
+                  {cur && <span className="rounded-xs border border-form-border bg-surface-100 px-1.5 py-0.5 font-mono text-[10px] font-medium text-text-muted">Viewing</span>}
                 </span>
                 <span className="text-[12px] text-text-muted">{r.by} · {r.sub}</span>
-                <span className="font-mono text-[10.5px] uppercase text-text-soft">{stamp(versionMeta(v).createdAt)}</span>
+                <span className="font-mono text-[10.5px] text-text-soft">{stamp(versionMeta(v).createdAt)}</span>
                 {v === 'v2' && state.appliedP1 && (
                   <ul className="mt-1 flex flex-col gap-0.5 pl-3.5 text-[11.5px] text-text-muted">
                     {proposalById('P1').changes.map((c) => <li key={c.id} className={state.appliedP1![c.id] ? '' : 'text-text-soft line-through'}>{c.label}</li>)}
@@ -302,7 +302,7 @@ function EntityDetails({ entity: base }: { entity: Entity }) {
         <EntityTile e={e} />
         <div className="min-w-0">
           <h2 className="text-entity-name font-medium text-text">{e.name}</h2>
-          <span className="mt-1.5 inline-flex items-center gap-1.5 rounded-xs bg-surface-100 px-1.5 py-0.5 font-mono text-[11px] uppercase text-text-muted">
+          <span className="mt-1.5 inline-flex items-center gap-1.5 rounded-xs bg-surface-100 px-1.5 py-0.5 font-mono text-[11px] text-text-muted">
             {recordId(e.id)}<i className="pi pi-copy !text-[11px]" aria-hidden />
           </span>
         </div>
@@ -318,7 +318,7 @@ function EntityDetails({ entity: base }: { entity: Entity }) {
       {sub === 'details' ? (
         <>
           <Accordion title="General" open>
-            <Row k="Type" v={cap(e.kind)} />
+            <Row k="Type" v={sentence(e.kind)} />
             <Row k="Jurisdiction" v={e.jurisdiction} />
             <Row k="Location" v={e.place} />
             {e.flag && <Row k="Flag" v={e.flag} />}
@@ -327,11 +327,11 @@ function EntityDetails({ entity: base }: { entity: Entity }) {
           <Accordion title="Listings" open>
             {added || e.listings?.length ? (
               <table className="w-full border-collapse text-table">
-                <thead><tr className="text-left font-mono text-[10px] uppercase text-text-soft"><th className="border-b border-content-border py-1 font-medium">List</th><th className="border-b border-content-border py-1 font-medium">Since</th><th className="border-b border-content-border py-1 font-medium">Source</th></tr></thead>
+                <thead><tr className="text-left font-mono text-[10px] text-text-soft"><th className="border-b border-content-border py-1 font-medium">List</th><th className="border-b border-content-border py-1 font-medium">Since</th><th className="border-b border-content-border py-1 font-medium">Source</th></tr></thead>
                 <tbody>
                   {added && (
                     <tr className="bg-[#fff5f5]">
-                      <td className="border-b border-surface-100 py-1.5">{added.name} <span className="ml-1 rounded-xs bg-tag-danger px-1 py-0.5 font-mono text-[9.5px] font-semibold uppercase text-white">New</span></td>
+                      <td className="border-b border-surface-100 py-1.5">{added.name} <span className="ml-1 rounded-xs bg-tag-danger px-1 py-0.5 font-mono text-[9.5px] font-semibold text-white">New</span></td>
                       <td className="border-b border-surface-100 py-1.5">{dayMonthYear(added.listingDate)}</td>
                       <td className="border-b border-surface-100 py-1.5">BIS</td>
                     </tr>
@@ -351,7 +351,7 @@ function EntityDetails({ entity: base }: { entity: Entity }) {
           {related.length > 1 && <p className="text-[12px] text-text-muted">Because: in 2 of your records</p>}
           {related.map((i) => (
             <div key={i.id} className="flex flex-col gap-1.5 rounded-md border border-content-border p-3">
-              <span className={`self-start rounded-xs border px-1.5 py-[3px] font-mono text-tag font-medium uppercase tracking-[0.05em] ${i.sev === 'danger' ? 'border-[#fca5a5] bg-tag-danger-bg text-tag-danger' : 'border-[#fdba74] bg-tag-warn-bg text-tag-warn'}`}>{i.tag}</span>
+              <span className={`self-start rounded-xs border px-1.5 py-[3px] font-mono text-tag font-medium ${i.sev === 'danger' ? 'border-[#fca5a5] bg-tag-danger-bg text-tag-danger' : 'border-[#fdba74] bg-tag-warn-bg text-tag-warn'}`}>{tagLabel(i.tag)}</span>
               <span className="text-card-title font-medium text-feed-ink">{i.title}</span>
             </div>
           ))}
@@ -368,13 +368,13 @@ function LinkDetails({ link: l }: { link: Link }) {
       <div className="flex items-center gap-2 px-4 pb-4 pt-5">
         <div className="flex min-w-0 flex-1 flex-col items-center gap-1.5 text-center"><EntityTile e={a} size={32} /><span className="font-mono text-[11px] font-semibold text-graph-text">{a.name}</span></div>
         <div className="flex shrink-0 flex-col items-center gap-1 text-link-hl">
-          <span className="font-mono text-[11px] font-medium uppercase">{linkLabel(l)}</span>
+          <span className="font-mono text-[11px] font-medium">{linkLabel(l)}</span>
           <i className="pi pi-arrow-right" aria-hidden />
         </div>
         <div className="flex min-w-0 flex-1 flex-col items-center gap-1.5 text-center"><EntityTile e={b} size={32} /><span className="font-mono text-[11px] font-semibold text-graph-text">{b.name}</span></div>
       </div>
       <Accordion title="General" open>
-        <Row k="Kind" v={cap(l.kind)} />
+        <Row k="Kind" v={sentence(l.kind)} />
         <Row k="Detail" v={l.detail} />
         {l.pct != null && <Row k="Ownership" v={`${l.pct}%`} />}
         <Row k="Status" v={l.former ? 'Former' : 'Active'} />
@@ -418,4 +418,3 @@ function Row({ k, v }: { k: string; v: string }) {
   );
 }
 
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

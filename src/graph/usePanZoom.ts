@@ -100,8 +100,23 @@ export function usePanZoom(stageRef: RefObject<HTMLDivElement | null>, frame: { 
     return () => el.removeEventListener('wheel', onWheel);
   }, [stageRef, zoomAt]);
 
+  // Ticket 18: centre a point that sits outside the stage (less a margin), easing, at the same zoom. A point
+  // already in view stays put. Like the user's own pan, it holds until the next target.
+  const revealEase = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const reveal = useCallback((p: { x: number; y: number }) => {
+    const el = stageRef.current; if (!el) return;
+    const { zoom, pan } = viewRef.current, w = el.clientWidth, h = el.clientHeight, m = 64;
+    const sx = pan.x + p.x * zoom, sy = pan.y + p.y * zoom;
+    if (sx >= m && sx <= w - m && sy >= m && sy <= h - m) return;
+    touched.current = true;
+    setEasing(true);
+    clearTimeout(revealEase.current);
+    revealEase.current = setTimeout(() => setEasing(false), 560);
+    setView({ zoom, pan: { x: w / 2 - p.x * zoom, y: h / 2 - p.y * zoom } });
+  }, [stageRef]);
+
   return {
-    view, easing, zoomBy, reset, dragging: !!drag.current?.moved,
+    view, easing, zoomBy, reset, reveal, dragging: !!drag.current?.moved,
     /** True if the last press was a drag, so the click that follows shouldn't clear the selection. */
     wasDrag: () => wasDrag.current,
     handlers: { onPointerDown, onPointerMove, onPointerUp, onPointerCancel: onPointerUp },

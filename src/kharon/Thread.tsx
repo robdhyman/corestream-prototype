@@ -1,15 +1,17 @@
-// The Kharon thread (ticket 02, variant D): no bubbles; the question is a Q line, Kharon's turns sit flush.
-// One renderer per Turn kind from state/flow.ts.
+// The Kharon thread (ticket 02, variant D; ticket 17). Turns group into exchanges: your question in a filled
+// bubble on the right, then Kharon's reply under its mark, each headed with who and when, with a rule between
+// exchanges. One renderer per Turn kind from state/flow.ts.
 
 import { caseData, linkById } from '../data/case';
-import { draftInsight, proposalById, shortName, story, versionMeta } from '../data/story';
+import { draftInsight, proposalById, shortName, stamp, story, versionMeta } from '../data/story';
 import type { Turn } from '../state/flow';
 import { useApp } from '../state/store';
-import { CANT, EXPOSURE_LEAD, PATHS, SELF_CHECKS, STOPPED_HAD, UPDATE_PATH, ZHOU_DOUBT, sourceLine } from './script';
-import { Box, Btn, Confidence, EntityLink, Lead, Meta, Note, Src } from './atoms';
-import { PathView, Tag } from './Path';
+import { CANT, EXPOSURE_LEAD, PATHS, SELF_CHECKS, STOPPED_HAD, UPDATE_PATH, ZHOU_DOUBT } from './script';
+import { Box, Btn, Confidence, Lead, Meta, Note, SourceLine, Src } from './atoms';
+import { KMark } from './KMark';
+import { HopEvidence, PathView, Stop, Tag } from './Path';
 
-export function TurnView({ turn, index }: { turn: Turn; index: number }) {
+function TurnView({ turn, index }: { turn: Turn; index: number }) {
   switch (turn.kind) {
     case 'question': return <Question text={turn.text} />;
     case 'work': return <Work turn={turn} />;
@@ -27,9 +29,59 @@ export function TurnView({ turn, index }: { turn: Turn; index: number }) {
 
 function Question({ text }: { text: string }) {
   return (
-    <div data-question className="flex gap-1.5 text-[13px] font-medium text-text">
-      <span className="font-mono text-[10px] font-semibold leading-4 text-text-soft">Q</span>
-      <span>{text}</span>
+    <p className="max-w-[88%] self-end rounded-[12px] rounded-br-[3px] bg-primary-active px-3 py-2 text-[13px] font-medium leading-[1.4] text-white">
+      {text}
+    </p>
+  );
+}
+
+/** One exchange: an optional question and the turns Kharon answered it with, stamped with the story clock.
+ *  A stamped turn with no question before it (the Branch offer, S9's Source update) opens an exchange of
+ *  Kharon's alone. */
+export interface Exchange { question?: string; at?: string; replies: { turn: Turn; index: number }[] }
+
+export function exchanges(turns: Turn[]): Exchange[] {
+  const out: Exchange[] = [];
+  turns.forEach((turn, index) => {
+    if (turn.kind === 'question') { out.push({ question: turn.text, at: turn.at, replies: [] }); return; }
+    if (!out.length || ('at' in turn && turn.at)) out.push({ at: 'at' in turn ? turn.at : undefined, replies: [] });
+    out[out.length - 1].replies.push({ turn, index });
+  });
+  return out;
+}
+
+/** '10:03', or '30 Oct · 15:02' when the day changed since the exchange before. */
+export function bylineTime(at: string | undefined, before: string | undefined) {
+  if (!at) return '';
+  return before && before.slice(0, 10) !== at.slice(0, 10) ? stamp(at) : at.slice(11, 16);
+}
+
+function Byline({ who, time, mine }: { who: string; time: string; mine?: boolean }) {
+  return (
+    <div className={`flex items-center gap-1.5 text-[11.5px] leading-4 ${mine ? 'self-end' : ''}`}>
+      {!mine && <KMark size={16} />}
+      <span className="font-semibold text-text">{who}</span>
+      {time && <span className="font-mono text-[10.5px] text-text-soft">· {time}</span>}
+    </div>
+  );
+}
+
+/** An exchange under its bylines, ruled off from the one before. */
+export function ExchangeView({ ex, time, first }: { ex: Exchange; time: string; first: boolean }) {
+  return (
+    <div className={`flex flex-col gap-3 ${first ? '' : 'border-t border-content-border pt-3.5'}`}>
+      {ex.question !== undefined && (
+        <div data-question className="flex flex-col gap-1">
+          <Byline who="You" time={time} mine />
+          <Question text={ex.question} />
+        </div>
+      )}
+      {ex.replies.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <Byline who="Kharon" time={time} />
+          {ex.replies.map(({ turn, index }) => <TurnView key={index} turn={turn} index={index} />)}
+        </div>
+      )}
     </div>
   );
 }
@@ -67,9 +119,9 @@ function Exposure({ compact, index }: { compact: boolean; index: number }) {
     return (
       <Box>
         <Lead>{EXPOSURE_LEAD}</Lead>
-        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10.5px] uppercase text-text-soft">
+        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10.5px] text-text-soft">
           {PATHS.length} paths · {hops} hops · 1 <Confidence c="low" />
-          <button type="button" onClick={() => dispatch({ type: 'expandAnswer', turn: index })} className="ml-auto font-sans text-[12px] font-medium normal-case text-primary-active hover:underline">Show path</button>
+          <button type="button" onClick={() => dispatch({ type: 'expandAnswer', turn: index })} className="ml-auto font-sans text-[12px] font-medium text-primary-active hover:underline">Show path</button>
         </div>
       </Box>
     );
@@ -77,7 +129,7 @@ function Exposure({ compact, index }: { compact: boolean; index: number }) {
   return (
     <div className="flex flex-col gap-1">
       <Lead>{EXPOSURE_LEAD}</Lead>
-      {PATHS.map((p) => <PathView key={p.title} title={p.title} from={p.from} hops={p.hops} />)}
+      {PATHS.map((p) => <PathView key={p.n} card={{ n: p.n, name: p.name }} from={p.from} hops={p.hops} />)}
       <div className="mt-2.5">
         <Box tone="warn">
           <div className="flex items-center gap-1.5"><Confidence c="low" /><Src>Same person?</Src></div>
@@ -107,8 +159,8 @@ function LinksAnswer({ entityId, linkIds }: { entityId: string; linkIds: string[
         const other = l.source === entityId ? l.target : l.source;
         return (
           <div key={id} className={`flex flex-col gap-[3px] pl-3 ${l.confidence === 'low' ? 'border-l-2 border-dotted border-tag-warn' : 'border-l-2 border-entity-stroke'}`}>
-            <span className="text-[12.5px]"><EntityLink id={other} /> <span className="font-mono text-[11px] text-text-muted">· {l.detail}</span></span>
-            <span className="flex flex-wrap items-baseline gap-1.5">{l.confidence && <Confidence c={l.confidence} />}{l.sources?.[0] && <Src>{sourceLine(l.sources[0])}</Src>}</span>
+            <Stop id={other} doubtful={l.confidence === 'low'} />
+            <HopEvidence phrase={l.detail} confidence={l.confidence} source={l.sources?.[0]} />
           </div>
         );
       })}
@@ -127,7 +179,7 @@ function LinkSources({ linkId }: { linkId: string }) {
       {l.confidence && <span><Confidence c={l.confidence} /></span>}
       {l.sources?.map((s) => (
         <div key={s.title} className="flex flex-col gap-[3px] border-l-2 border-entity-stroke pl-3">
-          <span className="text-[12.5px] font-medium">{s.title}</span>
+          <span className="flex items-baseline gap-1 text-[12.5px] font-medium"><i className="pi pi-file relative top-px !text-[10px] text-text-soft" aria-hidden />{s.title}</span>
           <span className="flex flex-wrap items-baseline gap-1.5"><Confidence c={s.confidence} /><Src>{s.publisher}, {s.date.slice(0, 4)}</Src></span>
           {s.note && <Src>{s.note}</Src>}
         </div>
@@ -142,7 +194,7 @@ function Cant({ reason }: { reason: 'bvi' | 'offScript' }) {
     <Box tone="muted">
       <p className="text-[12.5px] font-semibold leading-[1.4]">{c.lead}</p>
       <p className="text-[12.5px] leading-[1.4]">{c.body}</p>
-      {reason === 'bvi' && <Src>{CANT.bvi.checked}</Src>}
+      {reason === 'bvi' && <SourceLine>{CANT.bvi.checked}</SourceLine>}
     </Box>
   );
 }
@@ -172,7 +224,7 @@ function ProposalLine({ turn }: { turn: Extract<Turn, { kind: 'proposal' }> }) {
 
 export function VersionChip({ label, tone = 'main' }: { label: string; tone?: 'main' | 'branch' | 'source' }) {
   const bg = tone === 'branch' ? 'bg-tag-info' : tone === 'source' ? 'bg-text-muted' : 'bg-primary-active';
-  return <span className={`inline-flex items-center self-start rounded-xs px-1.5 py-1 font-mono text-[10.5px] font-semibold uppercase leading-none tracking-[0.05em] text-white ${bg}`}>{label}</span>;
+  return <span className={`inline-flex items-center self-start rounded-xs px-1.5 py-1 font-mono text-[10.5px] font-semibold leading-none text-white ${bg}`}>{label}</span>;
 }
 
 function Saved({ turn }: { turn: Extract<Turn, { kind: 'saved' }> }) {
@@ -197,7 +249,7 @@ function Generate() {
     <Box>
       <div className="mb-1 mt-0.5 flex gap-0.5">
         {STAGES.map((l, i) => (
-          <span key={l} className={`flex-1 border-t-[3px] pt-1 font-mono text-[9.5px] font-medium uppercase tracking-[0.03em] ${i < k ? 'border-primary text-primary-active' : i === k ? 'border-primary text-text' : 'border-content-border text-text-soft'}`}>{l}</span>
+          <span key={l} className={`flex-1 border-t-[3px] pt-1 font-mono text-[9.5px] font-medium ${i < k ? 'border-primary text-primary-active' : i === k ? 'border-primary text-text' : 'border-content-border text-text-soft'}`}>{l}</span>
         ))}
       </div>
       {k === 0 && (
@@ -256,7 +308,8 @@ function Changed() {
       <VersionChip label="Version 3 · Source update" tone="source" />
       <Lead>{lead}</Lead>
       <PathView from={UPDATE_PATH.from} hops={UPDATE_PATH.hops} tags={{ [story.update.entityId]: <Tag tone="new">New listing</Tag> }} />
-      <Src>{rest.join(' ')} Source: BIS final rule, "{story.update.rule.title}", effective 30 Oct.</Src>
+      <Src>{rest.join(' ')}</Src>
+      <SourceLine>BIS final rule, "{story.update.rule.title}", effective 30 Oct.</SourceLine>
       <Note>
         This also affects{' '}
         <button type="button" onClick={() => dispatch({ type: 'send', text: 'Open the Insight you published' })} className="font-medium text-primary-active hover:underline">the Insight you published</button>.

@@ -14,8 +14,8 @@ const year = (iso: string) => +iso.slice(0, 4) + (+iso.slice(5, 7) - 1) / 12 + (
 export const timelineRows = (linkIds: Set<string>): Link[] => [...linkIds].map((id) => linkById.get(id)!).filter((l) => l.startDate)
   .sort((a, b) => a.startDate!.localeCompare(b.startDate!) || a.id.localeCompare(b.id));
 
-export function Timeline({ linkIds, heading, selectedEntity, onSelectEntity }: {
-  linkIds: Set<string>; heading: string; selectedEntity: string | null; onSelectEntity: (id: string) => void;
+export function Timeline({ linkIds, heading, selectedEntity, peek, onSelectEntity }: {
+  linkIds: Set<string>; heading: string; selectedEntity: string | null; peek: string | null; onSelectEntity: (id: string) => void;
 }) {
   const rows = timelineRows(linkIds);
   const y0 = Math.floor(Math.min(...rows.map((l) => year(l.startDate!))));
@@ -33,9 +33,9 @@ export function Timeline({ linkIds, heading, selectedEntity, onSelectEntity }: {
           {y % 2 === 1 ? null : <text className="tl-yr" x={X(y)} y={TOP - 26}>{y}</text>}
         </g>
       ))}
-      {supplierLeaves && <Marker x={X(year(supplierLeaves))} top={TOP} bottom={H} label="SUPPLIER LEAVES · MAY 2023" anchor="end" />}
-      {contract && <Marker x={X(year(contract))} top={TOP} bottom={H} label="GRANTHAM · MAR 2024" anchor="start" />}
-      {rows.map((l, i) => <Row key={l.id} l={l} y={TOP + i * ROW + 14} X={X} sel={selectedEntity === l.source} onSelect={onSelectEntity} />)}
+      {supplierLeaves && <Marker x={X(year(supplierLeaves))} top={TOP} bottom={H} label="Supplier leaves · May 2023" anchor="end" />}
+      {contract && <Marker x={X(year(contract))} top={TOP} bottom={H} label="Grantham · Mar 2024" anchor="start" />}
+      {rows.map((l, i) => <Row key={l.id} l={l} y={TOP + i * ROW + 14} X={X} sel={selectedEntity === l.source} peek={!!peek && (peek === l.source || peek === l.target)} onSelect={onSelectEntity} />)}
     </svg>
   );
 }
@@ -49,18 +49,18 @@ function Marker({ x, top, bottom, label, anchor }: { x: number; top: number; bot
   );
 }
 
-function Row({ l, y, X, sel, onSelect }: { l: Link; y: number; X: (y: number) => number; sel: boolean; onSelect: (id: string) => void }) {
+function Row({ l, y, X, sel, peek, onSelect }: { l: Link; y: number; X: (y: number) => number; sel: boolean; peek: boolean; onSelect: (id: string) => void }) {
   const start = year(l.startDate!), end = l.endDate ? year(l.endDate) : NOW;
   const story = l.id === 'L12' || l.id === 'L18' || l.id === 'L19';
   const risky = entityById.get(l.source)?.tier === 'risk';
   return (
-    <g className={`tl-row ${story ? 'hl' : ''} ${sel ? 'sel' : ''}`} onClick={() => onSelect(l.source)}>
+    <g className={`tl-row ${story ? 'hl' : ''} ${sel ? 'sel' : ''} ${peek ? 'peek' : ''}`} onClick={() => onSelect(l.source)}>
       <rect className="tl-hit" x={4} y={y - 16} width={W - 8} height={ROW - 4} rx={4} />
       <text className="tl-a" x={14} y={y - 1}>{shortName(l.source)} → {shortName(l.target)}</text>
       <text className="tl-r" x={14} y={y + 13}>{l.detail}</text>
       <line className={`tl-bar k-${l.kind} ${l.former ? 'former' : ''}`} x1={X(start)} y1={y + 4} x2={X(end)} y2={y + 4} />
       <circle className={`tl-dot ${risky ? 'risk' : ''}`} cx={X(start)} cy={y + 4} r={6} />
-      {l.endDate && <text className="tl-end" x={X(end) + 9} y={y + 7.5}>ended {l.endDate.slice(0, 4)}</text>}
+      {l.endDate && <text className="tl-end" x={X(end) + 9} y={y + 7.5}>Ended {l.endDate.slice(0, 4)}</text>}
     </g>
   );
 }

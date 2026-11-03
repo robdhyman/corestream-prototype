@@ -34,7 +34,7 @@ export function Header() {
         <i className="pi pi-search text-field-icon" aria-hidden />
         <input
           type="search"
-          placeholder="Search by Risk or Entity"
+          placeholder="Search by risk or Entity"
           className="min-w-0 flex-1 bg-transparent text-[14px] leading-[17px] text-text outline-none placeholder:text-placeholder"
         />
       </label>
@@ -63,11 +63,11 @@ function Notice() {
   return (
     <div className="absolute right-14 top-[50px] w-[340px] rounded-lg border border-content-border bg-white text-text shadow-[0_10px_30px_rgb(0_30_40/0.18)]">
       <h5 className="flex items-center gap-2 px-3.5 pb-2 pt-3 text-[14px] font-medium">
-        Updates <small className="font-mono text-[10.5px] uppercase text-text-soft">{state.day === 3 && !state.updateOpened ? '1 new' : state.day === 3 ? '1 read' : 'None'}</small>
+        Updates <small className="font-mono text-[10.5px] text-text-soft">{state.day === 3 && !state.updateOpened ? '1 new' : state.day === 3 ? '1 read' : 'None'}</small>
       </h5>
       {state.day === 3 ? (
         <div className="flex flex-col gap-1.5 border-t border-content-border px-3.5 pb-3 pt-2.5">
-          <span className="self-start rounded-xs border border-[#fca5a5] bg-tag-danger-bg px-1.5 py-[3px] font-mono text-[10px] font-medium uppercase tracking-[0.05em] text-tag-danger">{u.listing.name} · 30 Oct</span>
+          <span className="self-start rounded-xs border border-[#fca5a5] bg-tag-danger-bg px-1.5 py-[3px] font-mono text-[10px] font-medium text-tag-danger">{u.listing.name} · 30 Oct</span>
           <p className="text-[13px] leading-[1.4]">{u.notice}</p>
           <ul className="flex list-disc flex-col gap-0.5 pl-4 text-[12px] text-text-muted">
             <li>{suryInsight.title}</li>

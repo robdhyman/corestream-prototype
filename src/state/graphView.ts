@@ -92,8 +92,8 @@ export function graphView(s: FlowState): GraphView {
 
   return {
     arrangement, entities, linkIds: links, marks: { entities: em, links: lm }, legend,
-    timelineHeading: s.openProposal && arrangement !== content.arrangement ? 'PREVIEW · TIMELINE ARRANGEMENT · NOT SAVED'
-      : `${versionMeta(s.viewing).label.toUpperCase()} · TIMELINE ARRANGEMENT${s.viewArrangement ? ' · VIEW ONLY' : ''}`,
+    timelineHeading: s.openProposal && arrangement !== content.arrangement ? 'Preview · Timeline Arrangement · not saved'
+      : `${versionMeta(s.viewing).label} · Timeline Arrangement${s.viewArrangement ? ' · view only' : ''}`,
     focus, content,
   };
 }

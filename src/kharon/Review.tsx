@@ -98,7 +98,7 @@ export function Tray({ id }: { id: ProposalId }) {
     <div className="flex flex-col rounded-lg border border-form-border bg-white shadow-[0_-6px_16px_rgb(0_30_40/0.06)]">
       <div className="flex items-baseline gap-1.5 px-2.5 pb-1.5 pt-2">
         <b className="text-[12.5px]">Proposal</b>
-        <span className="font-mono text-[10.5px] uppercase text-text-soft">{sub}</span>
+        <span className="font-mono text-[10.5px] text-text-soft">{sub}</span>
       </div>
       <div className="flex items-start gap-2 border-t border-surface-100 px-2.5 py-1.5">
         <span className={`flex size-[22px] shrink-0 items-center justify-center rounded ${ICON[c.kind].cls}`}><i className={`pi ${ICON[c.kind].icon} !text-[11px]`} aria-hidden /></span>

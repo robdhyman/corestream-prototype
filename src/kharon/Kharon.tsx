@@ -9,7 +9,7 @@ import { useApp } from '../state/store';
 import { Btn, Note } from './atoms';
 // The head's mark (Figma hf/Kharon head 2246:13290, Rob 11:03): the charcoal ferryman with mist waves, not the orange badge.
 import kHead from './mascot/k-head-charcoal.svg';
-import { Bars, TurnView } from './Thread';
+import { Bars, ExchangeView, bylineTime, exchanges } from './Thread';
 import { Review, Tray } from './Review';
 
 export function Kharon() {
@@ -23,7 +23,7 @@ export function Kharon() {
         <img src={kHead} alt="" aria-hidden width={28} height={28} className="block shrink-0" />
         <div className="min-w-0 flex-1">
           <div className="text-[14px] font-medium leading-[1.1]">Kharon Intelligence</div>
-          <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.03em] text-text-soft">{state.run ? 'Working' : 'Suryadeep Insight'}</div>
+          <div className="mt-0.5 font-mono text-[10px] text-text-soft">{state.run ? 'Working' : 'Suryadeep Insight'}</div>
         </div>
         <button type="button" aria-label="Close Kharon" onClick={() => dispatch({ type: 'toggleKharon' })} className="flex size-7 items-center justify-center rounded-md text-text-muted hover:bg-surface-100">
           <i className="pi pi-times !text-[13px]" aria-hidden />
@@ -84,7 +84,7 @@ function ThreadBody() {
         </div>
       )}
       {state.turns.length
-        ? state.turns.map((t, i) => <TurnView key={i} turn={t} index={i} />)
+        ? exchanges(state.turns).map((ex, n, all) => <ExchangeView key={n} ex={ex} time={bylineTime(ex.at, all[n - 1]?.at)} first={n === 0} />)
         : <Note>Kharon answers from this Insight's sources and proposes Changes you accept or reject. Nothing changes until you do.</Note>}
       <div ref={spacer} aria-hidden className="-mt-3.5 shrink-0" />
     </div>
@@ -106,7 +106,7 @@ function Composer() {
     >
       <div className="flex flex-wrap gap-1">
         {[focus, `Suryadeep Insight · ${version}`].filter(Boolean).map((c) => (
-          <span key={c} className="rounded-xs bg-focus-fill px-[5px] py-1 font-mono text-[10px] font-medium uppercase leading-none tracking-[0.03em] text-primary-active">{c}</span>
+          <span key={c} className="rounded-xs bg-focus-fill px-[5px] py-1 font-mono text-[10px] font-medium leading-none text-primary-active">{c}</span>
         ))}
       </div>
       <textarea

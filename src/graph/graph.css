@@ -16,13 +16,15 @@
 
 .g-node { cursor: pointer; outline: none; }
 .g-node .mark { transition: transform 120ms ease-out; transform-box: fill-box; transform-origin: center; }
-.g-node:hover .mark, .g-node:focus-visible .mark { transform: scale(1.06); }
+.g-node:hover .mark, .g-node:focus-visible .mark, .g-node.peek .mark { transform: scale(1.06); }
 .g-node .body { fill: var(--color-entity); stroke: color-mix(in srgb, var(--color-entity-stroke) 80%, transparent); stroke-width: 1.5; }
 .g-node.risk .body { fill: var(--color-risk); stroke: color-mix(in srgb, var(--color-risk-stroke) 80%, transparent); }
 .g-node.event .body { fill: var(--color-event); stroke: color-mix(in srgb, var(--color-event-stroke) 80%, transparent); }
 .g-node .ring { fill: none; stroke: var(--color-primary); stroke-width: 2; display: none; }
 .g-node.sel .ring, .g-node:focus-visible .ring { display: block; }
 .g-node.end .ring { display: block; stroke: var(--color-link-hl); }
+/* Peeked from Kharon (ticket 18): a dashed ring, so it never reads as the selection. */
+.g-node.peek:not(.sel) .ring { display: block; stroke-dasharray: 4 3; }
 .g-node .label {
   font-family: var(--font-mono); font-size: 11px; font-weight: 600; fill: var(--color-graph-text);
   paint-order: stroke; stroke: var(--color-graph-bg); stroke-width: 4px; stroke-linejoin: round;
@@ -74,7 +76,7 @@
 .tl-yr { font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; fill: var(--color-text-soft); text-anchor: middle; }
 .tl-row { cursor: pointer; }
 .tl-hit { fill: transparent; }
-.tl-row:hover .tl-hit, .tl-row.sel .tl-hit { fill: rgb(255 255 255 / 0.6); }
+.tl-row:hover .tl-hit, .tl-row.sel .tl-hit, .tl-row.peek .tl-hit { fill: rgb(255 255 255 / 0.6); }
 .tl-a { font-family: var(--font-mono); font-size: 11px; font-weight: 600; fill: var(--color-graph-text); }
 .tl-r { font-family: var(--font-mono); font-size: 10.5px; fill: var(--color-graph-text-2); }
 .tl-bar { stroke: var(--color-entity-stroke); stroke-width: 5; stroke-linecap: round; }

@@ -22,6 +22,7 @@ import './graph.css';
 const GLYPH = { domain, person, anchor, description, account_balance: accountBalance } as const;
 const BADGE = { listed: { icon: gppMaybe, fill: 'var(--color-badge-listed)' }, public: { icon: showChart, fill: 'var(--color-badge-public)' } } as const;
 const BADGE_D = 9.846 + 2 * 2.462; // Figma badge: 9.846 icon, 2.462 padding
+const NODE_TAG = { changed: 'Updated', unconfirmed: 'Unconfirmed' } as const;
 const R = NODE_SIZE / 2;
 const NO_MARKS: never[] = [];
 
@@ -39,11 +40,14 @@ export interface GraphProps {
   onSelectLink: (id: string) => void;
   onHoverEntity: (id: string | null) => void;
   onHoverLink: (id: string | null) => void;
+  /** An Entity hovered outside the graph (a name in Kharon): ringed and its Links lit, as on hover. */
+  peek?: string | null;
 }
 
 export function Graph(p: GraphProps) {
   const { arrangement, view } = p;
   const [hover, setHover] = useState<string | null>(null);
+  const hot = hover ?? p.peek ?? null;
   const { pos, settled } = useTween(arrangement.positions);
 
   // Only Entities the Arrangement places are drawn; Links need both ends drawn.
@@ -96,7 +100,7 @@ export function Graph(p: GraphProps) {
               marks={p.marks.links[l.id] ?? NO_MARKS}
               cls={[
                 l.former && 'former',
-                (hover && (l.source === hover || l.target === hover)) || near.lks.has(l.id) ? 'hl' : '',
+                (hot && (l.source === hot || l.target === hot)) || near.lks.has(l.id) ? 'hl' : '',
                 p.selectedLink === l.id && 'sel',
                 near.lks.has(l.id) && 'near',
               ].filter(Boolean).join(' ')}
@@ -115,6 +119,7 @@ export function Graph(p: GraphProps) {
               cls={[
                 e.tier,
                 p.selectedEntity === e.id && 'sel',
+                p.peek === e.id && 'peek',
                 selLink && (selLink.source === e.id || selLink.target === e.id) && 'end',
                 near.ents.has(e.id) && 'near',
               ].filter(Boolean).join(' ')}
@@ -190,7 +195,7 @@ const GraphNode = memo(function GraphNode(props: {
   const ghost = marks.includes('added') || marks.includes('unconfirmed');
   const shadow = ghost ? undefined : e.tier === 'risk' ? 'url(#shadow-risk)' : 'url(#shadow-entity)';
   const labelTop = e.isSubject ? R + LABEL_GAP + 2.5 : R + LABEL_GAP; // Subject label sits at 49.5 in Figma
-  const tag = marks.includes('changed') ? 'UPDATED' : marks.includes('unconfirmed') ? 'UNCONFIRMED' : null;
+  const tag = marks.includes('changed') ? 'changed' : marks.includes('unconfirmed') ? 'unconfirmed' : null;
   return (
     <g
       className={`g-node ${props.cls} ${markClasses(marks)}`}
@@ -217,10 +222,10 @@ const GraphNode = memo(function GraphNode(props: {
         <Badges badges={e.badges} y={e.isSubject ? -16 : -13} />
       </g>
       {tag && (
-        // UPDATED sits up and left, clear of a vertical Link's label on the right; UNCONFIRMED sits above.
-        <g className={`tag ${tag === 'UPDATED' ? 'upd' : 'unc'}`} transform={tag === 'UPDATED' ? `translate(${-R - 30} ${-R + 2})` : `translate(0 ${-R - 16})`}>
-          {tag === 'UPDATED' && <rect x={-31} y={-8} width={62} height={15} rx={2} />}
-          <text y={3.5}>{tag}</text>
+        // "Updated" sits up and left, clear of a vertical Link's label on the right; "Unconfirmed" sits above.
+        <g className={`tag ${tag === 'changed' ? 'upd' : 'unc'}`} transform={tag === 'changed' ? `translate(${-R - 30} ${-R + 2})` : `translate(0 ${-R - 16})`}>
+          {tag === 'changed' && <rect x={-31} y={-8} width={62} height={15} rx={2} />}
+          <text y={3.5}>{NODE_TAG[tag]}</text>
         </g>
       )}
       <text className="label" y={labelTop + 11}>
