@@ -1,0 +1,1516 @@
+{
+  "banner": "SYNTHETIC DATA · NOT A REAL ASSESSMENT",
+  "synthetic": true,
+  "caseId": "suryadeep",
+  "asOf": "2026-10-30",
+  "subjectId": "sury",
+  "entities": [
+    {
+      "id": "sury",
+      "name": "Suryadeep Photovoltaics Pvt. Ltd.",
+      "shortName": "Suryadeep",
+      "kind": "company",
+      "jurisdiction": "IN",
+      "place": "Ahmedabad, Gujarat",
+      "risk": "none",
+      "isSubject": true,
+      "note": "Solar module manufacturer"
+    },
+    {
+      "id": "merid",
+      "name": "Tarnwell Holdings Ltd.",
+      "shortName": "Tarnwell",
+      "kind": "company",
+      "jurisdiction": "VG",
+      "place": "Road Town, Tortola, BVI",
+      "risk": "high",
+      "flag": "Opaque ownership · nominee directors",
+      "note": "Holding company · 62% owner of Suryadeep"
+    },
+    {
+      "id": "hct",
+      "name": "Larchmere Trust",
+      "shortName": "Larchmere",
+      "kind": "trust",
+      "jurisdiction": "KY",
+      "place": "George Town, Cayman Islands",
+      "risk": "high",
+      "flag": "Cayman trust · settlor undisclosed",
+      "note": "Holds 45% of Tarnwell"
+    },
+    {
+      "id": "cheung",
+      "name": "Wei-Lun Cheung",
+      "kind": "person",
+      "jurisdiction": "HK",
+      "place": "Hong Kong SAR",
+      "risk": "watch",
+      "flag": "PEP association · former SIPT director",
+      "note": "Holds 55% of Tarnwell"
+    },
+    {
+      "id": "smb",
+      "name": "Standard Meridian Bank (Hong Kong) Ltd.",
+      "shortName": "Standard Meridian",
+      "kind": "bank",
+      "jurisdiction": "HK",
+      "place": "Hong Kong SAR",
+      "risk": "none",
+      "note": "Correspondent bank to Tarnwell"
+    },
+    {
+      "id": "gvb",
+      "name": "Ganga Vikas Commercial Bank Ltd.",
+      "shortName": "Ganga Vikas",
+      "kind": "bank",
+      "jurisdiction": "IN",
+      "place": "Mumbai, Maharashtra",
+      "risk": "none",
+      "note": "Primary banker"
+    },
+    {
+      "id": "kalinga",
+      "name": "Kalinga Solar Glass Works Pvt. Ltd.",
+      "shortName": "Kalinga",
+      "kind": "company",
+      "jurisdiction": "IN",
+      "place": "Bhubaneswar, Odisha",
+      "risk": "none",
+      "note": "Joint venture · 40% held"
+    },
+    {
+      "id": "sipt",
+      "name": "Sino-Indo Polysilicon Trading FZE",
+      "shortName": "SIPT",
+      "kind": "company",
+      "jurisdiction": "AE",
+      "place": "Dubai, UAE",
+      "risk": "watch",
+      "flag": "Adverse media · polysilicon origin",
+      "note": "Former polysilicon supplier"
+    },
+    {
+      "id": "coro",
+      "name": "Coromandel Coast Shipping Lines Ltd.",
+      "shortName": "Coromandel",
+      "kind": "company",
+      "jurisdiction": "IN",
+      "place": "Chennai, Tamil Nadu",
+      "risk": "none",
+      "note": "Freight forwarder"
+    },
+    {
+      "id": "kaveri",
+      "name": "MV Kaveri Pride",
+      "kind": "vessel",
+      "jurisdiction": "PA",
+      "place": "Panama flag · IMO 9745120",
+      "risk": "none",
+      "note": "Operated by Coromandel Coast"
+    },
+    {
+      "id": "mundra",
+      "name": "Port of Mundra",
+      "kind": "port",
+      "jurisdiction": "IN",
+      "place": "Kutch, Gujarat",
+      "risk": "none",
+      "realWorld": true,
+      "note": "Export gateway"
+    },
+    {
+      "id": "felix",
+      "name": "Port of Felixstowe",
+      "kind": "port",
+      "jurisdiction": "GB",
+      "place": "Suffolk, United Kingdom",
+      "risk": "none",
+      "realWorld": true,
+      "note": "Discharge port"
+    },
+    {
+      "id": "menon",
+      "name": "Rajiv Menon",
+      "kind": "person",
+      "jurisdiction": "IN",
+      "place": "Ahmedabad, Gujarat",
+      "risk": "none",
+      "note": "Managing director · 18% holder"
+    },
+    {
+      "id": "dgft",
+      "name": "Directorate General of Foreign Trade",
+      "shortName": "DGFT",
+      "kind": "authority",
+      "jurisdiction": "IN",
+      "place": "New Delhi",
+      "risk": "none",
+      "realWorld": true,
+      "note": "Export licence authority"
+    },
+    {
+      "id": "contract",
+      "name": "Supply agreement GEM-2024-117",
+      "kind": "agreement",
+      "jurisdiction": "GB",
+      "place": "Signed 14 Mar 2024",
+      "risk": "none",
+      "note": "Solar modules · five-year term"
+    },
+    {
+      "id": "grantham",
+      "name": "Grantham Electrical Manufacturing plc",
+      "shortName": "Grantham",
+      "kind": "company",
+      "jurisdiction": "GB",
+      "place": "Leeds, United Kingdom",
+      "risk": "none",
+      "note": "Customer · end buyer"
+    },
+    {
+      "id": "xpu",
+      "name": "Xinjiang Polytechnic University of Materials Science and Engineering",
+      "shortName": "XPU",
+      "kind": "university",
+      "jurisdiction": "CN",
+      "place": "Ürümqi, Xinjiang",
+      "risk": "watch",
+      "flag": "Military-civil fusion designation",
+      "note": "Settlor of Larchmere Trust"
+    },
+    {
+      "id": "zhou",
+      "name": "Prof. Zhou Ming",
+      "shortName": "Zhou Ming",
+      "kind": "person",
+      "jurisdiction": "CN",
+      "place": "Ürümqi, Xinjiang",
+      "risk": "watch",
+      "flag": "XPU dean · Tianshan advisory board",
+      "note": "Dean of engineering at XPU",
+      "identity": {
+        "status": "unconfirmed",
+        "basis": "Name and city match the Tarnwell director",
+        "missing": "No passport or ID number on the director filing"
+      }
+    },
+    {
+      "id": "tianshan",
+      "name": "Tianshan Aerospace & Defence Electronics Co., Ltd.",
+      "shortName": "Tianshan",
+      "kind": "company",
+      "jurisdiction": "CN",
+      "place": "Ürümqi, Xinjiang",
+      "risk": "high",
+      "flag": "US Entity List · Apr 2021",
+      "note": "Defense electronics contractor",
+      "listings": [
+        {
+          "instrument": "bis_entity_list",
+          "name": "US Entity List",
+          "authority": "Bureau of Industry and Security, US Department of Commerce",
+          "action": "Added to the Entity List",
+          "listingDate": "2021-04-21",
+          "status": "Listed",
+          "citation": "Supplement No. 4 to 15 CFR Part 744",
+          "licenseReviewPolicy": "Presumption of denial"
+        }
+      ]
+    },
+    {
+      "id": "xpzdc",
+      "name": "Xinjiang Production Zone Development Corp.",
+      "shortName": "XPZDC",
+      "kind": "authority",
+      "jurisdiction": "CN",
+      "place": "Ürümqi, Xinjiang",
+      "risk": "high",
+      "flag": "OFAC SDN · Dec 2020",
+      "note": "State-owned development corporation",
+      "listings": [
+        {
+          "instrument": "ofac_sdn",
+          "name": "OFAC SDN List",
+          "authority": "Office of Foreign Assets Control, US Department of the Treasury",
+          "action": "Designated (E.O. 13818, Global Magnitsky)",
+          "listingDate": "2020-12-15",
+          "status": "Listed"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "id": "L01",
+      "source": "merid",
+      "target": "sury",
+      "type": "ownership",
+      "label": "Owns 62%",
+      "percent": 62,
+      "startDate": "2022-03-09",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Annual return (Form MGT-7), FY 2024-25: shareholding pattern",
+          "publisher": "Ministry of Corporate Affairs, India (MCA21)",
+          "date": "2025-11-29",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L02",
+      "source": "hct",
+      "target": "merid",
+      "type": "ownership",
+      "label": "Holds 45%",
+      "percent": 45,
+      "startDate": "2021-09-20",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Register of members, Tarnwell Holdings Ltd.",
+          "publisher": "High Court of the Hong Kong SAR, Court of First Instance (exhibit bundle)",
+          "date": "2024-06-14",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L03",
+      "source": "cheung",
+      "target": "merid",
+      "type": "ownership",
+      "label": "UBO · 55%",
+      "percent": 55,
+      "startDate": "2021-12-06",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Register of members, Tarnwell Holdings Ltd.",
+          "publisher": "High Court of the Hong Kong SAR, Court of First Instance (exhibit bundle)",
+          "date": "2024-06-14",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L04",
+      "source": "xpu",
+      "target": "hct",
+      "type": "control",
+      "label": "Settlor",
+      "startDate": "2020-06-11",
+      "status": "active",
+      "confidence": "medium",
+      "sources": [
+        {
+          "title": "Deed of settlement, Larchmere Trust (partly redacted)",
+          "publisher": "High Court of the Hong Kong SAR, Court of First Instance (exhibit bundle)",
+          "date": "2024-06-14",
+          "confidence": "medium"
+        },
+        {
+          "title": "XPU annual financial statement: 'overseas education endowment'",
+          "publisher": "Xinjiang Polytechnic University",
+          "date": "2025-04-30",
+          "confidence": "low"
+        }
+      ]
+    },
+    {
+      "id": "L05",
+      "source": "zhou",
+      "target": "merid",
+      "type": "control",
+      "label": "Director",
+      "startDate": "2021-10-04",
+      "status": "inferred",
+      "confidence": "low",
+      "sources": [
+        {
+          "title": "Register of directors (filed copy), Tarnwell Holdings Ltd.",
+          "publisher": "BVI Registry of Corporate Affairs, via High Court of the Hong Kong SAR, Court of First Instance (exhibit bundle)",
+          "date": "2024-06-14",
+          "confidence": "low",
+          "note": "Names 'ZHOU Ming, Ürümqi, PRC'. No passport or ID number, so the match to the XPU dean rests on name and city."
+        }
+      ]
+    },
+    {
+      "id": "L06",
+      "source": "zhou",
+      "target": "xpu",
+      "type": "affiliation",
+      "label": "Dean of engineering",
+      "startDate": "2017-09-01",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Faculty page: Dean, School of Materials Engineering",
+          "publisher": "Xinjiang Polytechnic University",
+          "date": "2026-09-02",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L07",
+      "source": "tianshan",
+      "target": "xpu",
+      "type": "research",
+      "label": "Joint laboratory · 2019–",
+      "startDate": "2019-03-18",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Press release: joint laboratory inaugurated",
+          "publisher": "Tianshan Aerospace & Defence Electronics",
+          "date": "2019-03-18",
+          "confidence": "high"
+        },
+        {
+          "title": "Adverse media: Tianshan research ties to XPU",
+          "publisher": "Adverse media · 3 outlets",
+          "date": "2026-08-21",
+          "confidence": "medium"
+        }
+      ]
+    },
+    {
+      "id": "L08",
+      "source": "xpzdc",
+      "target": "tianshan",
+      "type": "ownership",
+      "label": "State owner · 100%",
+      "percent": 100,
+      "startDate": "2014-05-12",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Enterprise credit record: sole shareholder",
+          "publisher": "National Enterprise Credit Information Publicity System (PRC)",
+          "date": "2026-09-10",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L09",
+      "source": "smb",
+      "target": "merid",
+      "type": "finance",
+      "label": "Correspondent bank",
+      "startDate": "2022-06-30",
+      "status": "active",
+      "confidence": "medium",
+      "sources": [
+        {
+          "title": "Annual report FY 2024-25: related-party note (dividend to Tarnwell via Standard Meridian Bank)",
+          "publisher": "Suryadeep Photovoltaics",
+          "date": "2025-09-30",
+          "confidence": "medium"
+        }
+      ]
+    },
+    {
+      "id": "L10",
+      "source": "gvb",
+      "target": "sury",
+      "type": "finance",
+      "label": "Primary banker",
+      "startDate": "2015-04-01",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Annual report FY 2024-25: bankers",
+          "publisher": "Suryadeep Photovoltaics",
+          "date": "2025-09-30",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L11",
+      "source": "sury",
+      "target": "kalinga",
+      "type": "ownership",
+      "label": "Owns 40% · JV",
+      "percent": 40,
+      "startDate": "2019-08-01",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Annual return (Form MGT-7), FY 2024-25: associate companies",
+          "publisher": "Ministry of Corporate Affairs, India (MCA21)",
+          "date": "2025-11-29",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L12",
+      "source": "sipt",
+      "target": "sury",
+      "type": "supply",
+      "label": "Polysilicon supplier · ended 2023",
+      "startDate": "2019-06-01",
+      "endDate": "2023-05-31",
+      "status": "lapsed",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Import records (bills of entry), 2019–2023",
+          "publisher": "Indian customs data (aggregated)",
+          "date": "2023-06-30",
+          "confidence": "high"
+        },
+        {
+          "title": "Trade press: questions over SIPT polysilicon origin",
+          "publisher": "Trade press · 2 outlets",
+          "date": "2023-07-12",
+          "confidence": "medium"
+        }
+      ]
+    },
+    {
+      "id": "L13",
+      "source": "coro",
+      "target": "sury",
+      "type": "logistics",
+      "label": "Freight forwarder",
+      "startDate": "2025-01-15",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Bills of lading, Jan 2025–Sep 2026",
+          "publisher": "Bill of lading data (aggregated)",
+          "date": "2026-09-30",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L14",
+      "source": "coro",
+      "target": "kaveri",
+      "type": "logistics",
+      "label": "Operates",
+      "startDate": "2023-02-01",
+      "status": "active",
+      "confidence": "medium",
+      "sources": [
+        {
+          "title": "Vessel registry and operator record",
+          "publisher": "Panama Maritime Authority registry (aggregated)",
+          "date": "2026-07-01",
+          "confidence": "medium"
+        }
+      ]
+    },
+    {
+      "id": "L15",
+      "source": "kaveri",
+      "target": "mundra",
+      "type": "logistics",
+      "label": "Loads at",
+      "startDate": "2025-01-15",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "AIS port calls",
+          "publisher": "AIS vessel tracking",
+          "date": "2026-10-20",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L16",
+      "source": "kaveri",
+      "target": "felix",
+      "type": "logistics",
+      "label": "Discharges at",
+      "startDate": "2025-02-20",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "AIS port calls",
+          "publisher": "AIS vessel tracking",
+          "date": "2026-10-20",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L17",
+      "source": "sury",
+      "target": "mundra",
+      "type": "logistics",
+      "label": "Exports via",
+      "startDate": "2018-04-01",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Shipping bills, 2018–2026",
+          "publisher": "Indian customs data (aggregated)",
+          "date": "2026-09-30",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L18",
+      "source": "sury",
+      "target": "contract",
+      "type": "contract",
+      "label": "Party to · seller",
+      "startDate": "2024-03-14",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Annual report 2024/25: material contracts",
+          "publisher": "Grantham Electrical Manufacturing plc",
+          "date": "2025-07-15",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L19",
+      "source": "grantham",
+      "target": "contract",
+      "type": "contract",
+      "label": "Party to · buyer",
+      "startDate": "2024-03-14",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Annual report 2024/25: material contracts",
+          "publisher": "Grantham Electrical Manufacturing plc",
+          "date": "2025-07-15",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L20",
+      "source": "menon",
+      "target": "sury",
+      "type": "ownership",
+      "label": "Managing director · 18%",
+      "percent": 18,
+      "startDate": "2011-02-01",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Annual return (Form MGT-7), FY 2024-25: shareholders and directors",
+          "publisher": "Ministry of Corporate Affairs, India (MCA21)",
+          "date": "2025-11-29",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L21",
+      "source": "dgft",
+      "target": "sury",
+      "type": "regulatory",
+      "label": "Export licence (IEC)",
+      "startDate": "2012-07-01",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Importer-Exporter Code record",
+          "publisher": "Directorate General of Foreign Trade",
+          "date": "2026-05-01",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L22",
+      "source": "zhou",
+      "target": "tianshan",
+      "type": "affiliation",
+      "label": "Advisory board",
+      "startDate": "2020-01-01",
+      "status": "active",
+      "confidence": "high",
+      "sources": [
+        {
+          "title": "Annual report 2025: advisory board ('Prof. Zhou Ming, XPU')",
+          "publisher": "Tianshan Aerospace & Defence Electronics",
+          "date": "2026-04-30",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "id": "L23",
+      "source": "cheung",
+      "target": "sipt",
+      "type": "control",
+      "label": "Director · resigned 2022",
+      "startDate": "2019-06-01",
+      "endDate": "2022-11-30",
+      "status": "lapsed",
+      "confidence": "medium",
+      "sources": [
+        {
+          "title": "Free zone company register extract",
+          "publisher": "Dubai free zone registry (aggregated)",
+          "date": "2023-01-15",
+          "confidence": "medium"
+        }
+      ]
+    }
+  ],
+  "exposure": {
+    "lookThrough": [
+      {
+        "entityId": "hct",
+        "pct": 27.9,
+        "via": [
+          "L02",
+          "L01"
+        ],
+        "note": "62% × 45%"
+      },
+      {
+        "entityId": "cheung",
+        "pct": 34.1,
+        "via": [
+          "L03",
+          "L01"
+        ],
+        "note": "62% × 55%"
+      }
+    ],
+    "nearestListed": [
+      {
+        "asOf": "v1",
+        "entityId": "tianshan",
+        "hops": 4,
+        "note": "Tianshan sits 4 hops upstream: Tarnwell, Larchmere, XPU, Tianshan. XPZDC is a fifth."
+      },
+      {
+        "asOf": "v3",
+        "entityId": "xpu",
+        "hops": 3,
+        "note": "After the Update, XPU sits 3 hops upstream: Tarnwell, Larchmere, XPU."
+      }
+    ],
+    "paths": [
+      {
+        "id": "path-ownership",
+        "label": "Ownership chain",
+        "confidence": "medium",
+        "linkIds": [
+          "L01",
+          "L02",
+          "L04",
+          "L07",
+          "L08"
+        ],
+        "hiddenLinkIds": [
+          "L04",
+          "L07",
+          "L08"
+        ],
+        "terminalEntityIds": [
+          "tianshan",
+          "xpzdc"
+        ],
+        "summary": "Suryadeep ← 62% Tarnwell ← 45% Larchmere Trust ← settlor XPU ← joint lab Tianshan (US Entity List, Apr 2021) ← 100% XPZDC (OFAC SDN, Dec 2020)."
+      },
+      {
+        "id": "path-zhou",
+        "label": "Shared person",
+        "confidence": "low",
+        "linkIds": [
+          "L05",
+          "L06",
+          "L22"
+        ],
+        "hiddenLinkIds": [
+          "L05",
+          "L06",
+          "L22"
+        ],
+        "terminalEntityIds": [
+          "xpu",
+          "tianshan"
+        ],
+        "summary": "Tarnwell ← director Zhou Ming (unconfirmed identity) → dean at XPU, and on Tianshan's advisory board."
+      }
+    ]
+  },
+  "versions": [
+    {
+      "id": "v1",
+      "label": "Version 1",
+      "line": "main",
+      "madeBy": "published",
+      "byline": "Published",
+      "createdAt": "2026-10-28T08:00:00Z",
+      "arrangement": "radial",
+      "entityIds": [
+        "sury",
+        "merid",
+        "hct",
+        "cheung",
+        "smb",
+        "gvb",
+        "kalinga",
+        "sipt",
+        "coro",
+        "kaveri",
+        "mundra",
+        "felix",
+        "menon",
+        "dgft",
+        "contract",
+        "grantham"
+      ],
+      "linkIds": [
+        "L01",
+        "L02",
+        "L03",
+        "L09",
+        "L10",
+        "L11",
+        "L12",
+        "L13",
+        "L14",
+        "L15",
+        "L16",
+        "L17",
+        "L18",
+        "L19",
+        "L20",
+        "L21",
+        "L23"
+      ]
+    },
+    {
+      "id": "v2",
+      "label": "Version 2",
+      "line": "main",
+      "parent": "v1",
+      "madeBy": "kharon",
+      "byline": "Kharon · approved by you · 3 of 4 Changes",
+      "createdAt": "2026-10-28T10:12:00Z",
+      "arrangement": "ownership",
+      "entityIds": [
+        "sury",
+        "merid",
+        "hct",
+        "cheung",
+        "smb",
+        "gvb",
+        "kalinga",
+        "sipt",
+        "menon",
+        "dgft",
+        "contract",
+        "grantham",
+        "xpu",
+        "tianshan",
+        "xpzdc"
+      ],
+      "linkIds": [
+        "L01",
+        "L02",
+        "L03",
+        "L04",
+        "L07",
+        "L08",
+        "L09",
+        "L10",
+        "L11",
+        "L12",
+        "L18",
+        "L19",
+        "L20",
+        "L21",
+        "L23"
+      ],
+      "proposal": "P1",
+      "changesApplied": [
+        "C1",
+        "C3",
+        "C4"
+      ],
+      "changesRejected": [
+        "C2"
+      ]
+    },
+    {
+      "id": "b1",
+      "label": "Branch B",
+      "line": "B",
+      "parent": "v1",
+      "madeBy": "kharon",
+      "byline": "Kharon · approved by you · Branch B started from Version 1",
+      "createdAt": "2026-10-28T10:20:00Z",
+      "arrangement": "timeline",
+      "entityIds": [
+        "sury",
+        "merid",
+        "hct",
+        "cheung",
+        "smb",
+        "gvb",
+        "kalinga",
+        "sipt",
+        "coro",
+        "kaveri",
+        "mundra",
+        "felix",
+        "menon",
+        "dgft",
+        "contract",
+        "grantham"
+      ],
+      "linkIds": [
+        "L01",
+        "L02",
+        "L03",
+        "L09",
+        "L10",
+        "L11",
+        "L12",
+        "L13",
+        "L14",
+        "L15",
+        "L16",
+        "L17",
+        "L18",
+        "L19",
+        "L20",
+        "L21",
+        "L23"
+      ],
+      "proposal": "P2",
+      "changesApplied": [
+        "C5"
+      ]
+    },
+    {
+      "id": "v3",
+      "label": "Version 3",
+      "line": "main",
+      "parent": "v2",
+      "madeBy": "source_update",
+      "byline": "Source update",
+      "createdAt": "2026-10-30T13:10:00Z",
+      "arrangement": "ownership",
+      "entityIds": [
+        "sury",
+        "merid",
+        "hct",
+        "cheung",
+        "smb",
+        "gvb",
+        "kalinga",
+        "sipt",
+        "menon",
+        "dgft",
+        "contract",
+        "grantham",
+        "xpu",
+        "tianshan",
+        "xpzdc"
+      ],
+      "linkIds": [
+        "L01",
+        "L02",
+        "L03",
+        "L04",
+        "L07",
+        "L08",
+        "L09",
+        "L10",
+        "L11",
+        "L12",
+        "L18",
+        "L19",
+        "L20",
+        "L21",
+        "L23"
+      ],
+      "update": "U1",
+      "changedEntityIds": [
+        "xpu"
+      ]
+    },
+    {
+      "id": "v4",
+      "label": "Version 4",
+      "line": "main",
+      "parent": "v3",
+      "madeBy": "kharon",
+      "byline": "Kharon · approved by you · 1 of 1 Change",
+      "createdAt": "2026-10-30T15:06:00Z",
+      "arrangement": "ownership",
+      "entityIds": [
+        "sury",
+        "merid",
+        "hct",
+        "cheung",
+        "smb",
+        "gvb",
+        "kalinga",
+        "sipt",
+        "menon",
+        "dgft",
+        "contract",
+        "grantham",
+        "xpu",
+        "tianshan",
+        "xpzdc"
+      ],
+      "linkIds": [
+        "L01",
+        "L02",
+        "L03",
+        "L04",
+        "L07",
+        "L08",
+        "L09",
+        "L10",
+        "L11",
+        "L12",
+        "L18",
+        "L19",
+        "L20",
+        "L21",
+        "L23"
+      ],
+      "proposal": "P3",
+      "changesApplied": [
+        "C6"
+      ],
+      "riskOverrides": {
+        "xpu": "high"
+      }
+    }
+  ],
+  "proposals": [
+    {
+      "id": "P1",
+      "screen": "S4",
+      "basedOn": "v1",
+      "headline": "Add this path and lay it out by ownership",
+      "changes": [
+        {
+          "id": "C1",
+          "kind": "add",
+          "label": "Add XPU, Tianshan, XPZDC and their Links",
+          "entityIds": [
+            "xpu",
+            "tianshan",
+            "xpzdc"
+          ],
+          "linkIds": [
+            "L04",
+            "L07",
+            "L08"
+          ],
+          "confidence": "medium",
+          "scriptedDecision": "accept"
+        },
+        {
+          "id": "C2",
+          "kind": "add",
+          "label": "Add Prof. Zhou Ming and his Links (unconfirmed)",
+          "entityIds": [
+            "zhou"
+          ],
+          "linkIds": [
+            "L05",
+            "L06",
+            "L22"
+          ],
+          "confidence": "low",
+          "scriptedDecision": "reject",
+          "why": "The Tarnwell director and the XPU dean share a name and city, with no ID to confirm they are the same person."
+        },
+        {
+          "id": "C3",
+          "kind": "hide",
+          "label": "Hide 5 logistics Links",
+          "entityIds": [
+            "coro",
+            "kaveri",
+            "mundra",
+            "felix"
+          ],
+          "linkIds": [
+            "L13",
+            "L14",
+            "L15",
+            "L16",
+            "L17"
+          ],
+          "confidence": "high",
+          "scriptedDecision": "accept",
+          "why": "Off the Exposure path. Coromandel, MV Kaveri Pride and both ports have no other Link, so they hide too."
+        },
+        {
+          "id": "C4",
+          "kind": "arrangement",
+          "label": "Switch the Arrangement to ownership hierarchy",
+          "arrangement": "ownership",
+          "confidence": "high",
+          "scriptedDecision": "accept"
+        }
+      ],
+      "resultVersion": "v2",
+      "userCopy": "Keep what's sourced, leave out what isn't."
+    },
+    {
+      "id": "P2",
+      "screen": "S6",
+      "basedOn": "v1",
+      "headline": "Lay Version 1 out as a timeline",
+      "changes": [
+        {
+          "id": "C5",
+          "kind": "arrangement",
+          "label": "Switch the Arrangement to timeline",
+          "arrangement": "timeline",
+          "confidence": "high",
+          "scriptedDecision": "accept"
+        }
+      ],
+      "resultVersion": "b1"
+    },
+    {
+      "id": "P3",
+      "screen": "S9",
+      "basedOn": "v3",
+      "headline": "Mark XPU high risk",
+      "changes": [
+        {
+          "id": "C6",
+          "kind": "risk",
+          "label": "Mark XPU high risk",
+          "entityIds": [
+            "xpu"
+          ],
+          "risk": "high",
+          "confidence": "high",
+          "scriptedDecision": "accept",
+          "why": "XPU is now on the US Entity List."
+        }
+      ],
+      "resultVersion": "v4"
+    }
+  ],
+  "insights": [
+    {
+      "id": "ins-sury",
+      "status": "published",
+      "tag": "Forced Labor",
+      "sev": "warn",
+      "place": "Ahmedabad, IN",
+      "jurisdiction": "IN",
+      "publishedAt": "2026-10-28T08:00:00Z",
+      "author": "R. Iyer",
+      "sourceCount": 15,
+      "subjectId": "sury",
+      "cardTitle": "UK buyer's solar module supplier is 62% owned by a BVI holding with nominee directors",
+      "title": "UK Buyer's Solar Module Supplier Is 62% Owned By A BVI Holding With Nominee Directors",
+      "dek": "Suryadeep Photovoltaics, which ships solar modules to Grantham Electrical Manufacturing under a five-year contract signed in March 2024, is 62% owned by Tarnwell Holdings, a British Virgin Islands company whose filed directors are nominees. Tarnwell's own owners are a Cayman trust and a Hong Kong investor who once sat on the board of Suryadeep's former polysilicon supplier.",
+      "paras": [
+        "Tarnwell Holdings took its 62% stake in March 2022, according to Suryadeep's annual return with India's Ministry of Corporate Affairs. Managing director Rajiv Menon holds a further 18%. Tarnwell's register of members, exhibited in Hong Kong court proceedings in 2024, lists two holders: Larchmere Trust in the Cayman Islands with 45%, and Wei-Lun Cheung with 55%.",
+        "Cheung was a director of Sino-Indo Polysilicon Trading FZE until November 2022. The Dubai trader supplied Suryadeep's polysilicon until May 2023 and has drawn adverse media over where that polysilicon came from. Suryadeep's current inputs, including glass from its Kalinga joint venture, carry no flags.",
+        "Analyst view: on the record, 27.9% of Suryadeep traces through a trust whose settlor is not disclosed. That is below a control test but above the 25% beneficial-ownership threshold most buyer screens apply. The open question for Grantham is who stands behind Larchmere."
+      ],
+      "versions": [
+        "v1",
+        "v2",
+        "b1",
+        "v3",
+        "v4"
+      ]
+    },
+    {
+      "id": "ins-draft",
+      "status": "draft",
+      "generatedFrom": "v2",
+      "tag": "Sanctions",
+      "sev": "danger",
+      "place": "Ahmedabad, IN",
+      "jurisdiction": "IN",
+      "publishedAt": "2026-10-28T10:40:00Z",
+      "author": "Kharon · approved by you",
+      "subjectId": "sury",
+      "outline": [
+        {
+          "id": "o1",
+          "text": "The ownership chain from Suryadeep to XPU",
+          "order": 2
+        },
+        {
+          "id": "o2",
+          "text": "Where the chain meets listed parties: Tianshan and XPZDC",
+          "order": 3
+        },
+        {
+          "id": "o3",
+          "text": "Grantham's exposure",
+          "order": 1,
+          "movedByUser": true
+        }
+      ],
+      "cardTitle": "Grantham's solar supplier traces back to a sanctioned Xinjiang defense group through its majority owner",
+      "title": "Grantham's Solar Supplier Traces Back To A Sanctioned Xinjiang Defense Group Through Its Majority Owner",
+      "dek": "Suryadeep Photovoltaics, which has supplied Grantham Electrical Manufacturing since March 2024, is 62% owned by Tarnwell Holdings. The Cayman trust that holds 45% of Tarnwell was settled by a Xinjiang university whose joint laboratory partner, Tianshan Aerospace & Defence Electronics, is on the US Entity List and wholly owned by an OFAC-designated state corporation.",
+      "paras": [
+        "Grantham buys solar modules from Suryadeep under supply agreement GEM-2024-117, a five-year term signed on 14 March 2024. Suryadeep is not listed itself, and no listed party appears in its shipments. Grantham's exposure runs through ownership: 27.9% of its supplier traces to a trust settled by a university with a defense partner.",
+        "Tarnwell Holdings, registered in the British Virgin Islands, took 62% of Suryadeep in March 2022. Larchmere Trust holds 45% of Tarnwell. A deed of settlement exhibited in Hong Kong court proceedings names Xinjiang Polytechnic University of Materials Science and Engineering as the trust's settlor in June 2020, and the university's own accounts refer to an overseas education endowment.",
+        "Since 2019 the university has run a joint laboratory with Tianshan Aerospace & Defence Electronics, which was added to the US Entity List in April 2021. Tianshan is wholly owned by Xinjiang Production Zone Development Corp., designated by OFAC in December 2020, so under OFAC's 50 Percent Rule Tianshan's property is blocked as well.",
+        "Analyst view: a settlor holds no shares, so the chain does not meet an ownership test. It does put a listed defense contractor four Links above a UK buyer's supplier, close enough that Grantham's next supplier attestation will have to address it."
+      ],
+      "selfCheck": {
+        "claims": 12,
+        "sourced": 12,
+        "summary": "Every claim sourced; the unconfirmed Zhou Ming link left out.",
+        "leftOut": [
+          {
+            "linkId": "L05",
+            "reason": "Identity unconfirmed: name and city match, no ID."
+          }
+        ]
+      },
+      "sourceCount": 16
+    }
+  ],
+  "update": {
+    "id": "U1",
+    "kind": "listing",
+    "date": "2026-10-30",
+    "detectedAt": "2026-10-30T13:10:00Z",
+    "entityId": "xpu",
+    "listing": {
+      "instrument": "bis_entity_list",
+      "name": "US Entity List",
+      "authority": "Bureau of Industry and Security, US Department of Commerce",
+      "action": "Added to the Entity List",
+      "listingDate": "2026-10-30",
+      "status": "Listed",
+      "citation": "Supplement No. 4 to 15 CFR Part 744",
+      "licenseReviewPolicy": "Presumption of denial",
+      "federalRegister": "91 FR [INSERT FR PAGE NUMBER] 11/3/26"
+    },
+    "rule": {
+      "agency": "Bureau of Industry and Security, Department of Commerce",
+      "cfr": "15 CFR Part 744",
+      "title": "Additions to the Entity List",
+      "action": "Final rule",
+      "summary": "BIS amends the Export Administration Regulations (EAR) by adding one entity under the destination of China to the Entity List.",
+      "effective": "2026-10-30",
+      "frPublication": "2026-11-03",
+      "decidedBy": "End-User Review Committee (Commerce, State, Defense, Energy)",
+      "basis": "Under §744.11(b) of the EAR, the ERC determined there is reasonable cause to believe, based on specific and articulable facts, that XPU is acting contrary to the national security interests of the United States, by supporting the PRC's military-civil fusion programme, including through its joint laboratory with Tianshan Aerospace & Defence Electronics Co., Ltd., added to the Entity List in April 2021.",
+      "entry": {
+        "country": "CHINA, PEOPLE'S REPUBLIC OF",
+        "entity": "Xinjiang Polytechnic University of Materials Science and Engineering, a.k.a., the following two aliases: —XPU; and —Xinjiang Polytechnic University. Shuimogou District, Ürümqi, Xinjiang, China.",
+        "licenseRequirement": "For all items subject to the EAR. (See §744.11 of the EAR).",
+        "licenseReviewPolicy": "Presumption of denial.",
+        "federalRegisterCitation": "91 FR [INSERT FR PAGE NUMBER] 11/3/26"
+      }
+    },
+    "notice": "Xinjiang Polytechnic University is added to the US Entity List. Two Insights you've read are affected.",
+    "affectedInsightIds": [
+      "ins-sury",
+      "ins-draft"
+    ],
+    "resultVersion": "v3"
+  },
+  "feed": [
+    {
+      "insightId": "ins-sury",
+      "tag": "Forced Labor",
+      "title": "UK buyer's solar module supplier is 62% owned by a BVI holding with nominee directors",
+      "place": "Ahmedabad, IN",
+      "publishedAt": "2026-10-28T08:00:00Z",
+      "inDemo": true
+    },
+    {
+      "tag": "Forced Labor",
+      "title": "Bulk carrier renamed and reflagged twice in 90 days after listing of its former manager",
+      "place": "Piraeus, GR",
+      "publishedAt": "2026-10-28T05:00:00Z",
+      "unread": true,
+      "inDemo": false
+    },
+    {
+      "tag": "Forced Labor",
+      "title": "Textile exporter's largest customer added to UFLPA Entity List; three tier-2 suppliers share directors",
+      "place": "Ho Chi Minh City, VN",
+      "publishedAt": "2026-10-28T01:00:00Z",
+      "unread": true,
+      "inDemo": false
+    },
+    {
+      "tag": "Forced Labor",
+      "title": "Minority stake in freight forwarder traced to a designated entity through two holding companies",
+      "place": "Dubai, AE",
+      "publishedAt": "2026-10-25T10:00:00Z",
+      "inDemo": false
+    },
+    {
+      "tag": "Forced Labor",
+      "title": "Customs broker fined after screening lapse; contract with regional port operator under review",
+      "place": "Antwerp, BE",
+      "publishedAt": "2026-10-26T10:00:00Z",
+      "inDemo": false
+    },
+    {
+      "tag": "Forced Labor",
+      "title": "Aluminium smelter's new offtake partner shares an address with a listed trading house",
+      "place": "Istanbul, TR",
+      "publishedAt": "2026-10-26T10:00:00Z",
+      "inDemo": false
+    },
+    {
+      "tag": "Forced Labor",
+      "title": "Recruitment agency named in audit supplied workers to two electronics plants in the watch set",
+      "place": "Penang, MY",
+      "publishedAt": "2026-10-25T10:00:00Z",
+      "inDemo": false
+    }
+  ],
+  "screens": [
+    {
+      "id": "S1",
+      "title": "Main Feed opens",
+      "flow": 1,
+      "clock": "2026-10-28T10:00:00Z",
+      "version": "v1",
+      "left": "feed",
+      "panel": "insight",
+      "selectedFeedInsight": "ins-sury",
+      "copy": "UK Buyer's Solar Module Supplier Is 62% Owned By A BVI Holding With Nominee Directors"
+    },
+    {
+      "id": "S2",
+      "title": "Investigate and hover",
+      "flow": 2,
+      "clock": "2026-10-28T10:02:00Z",
+      "version": "v1",
+      "left": "feed",
+      "panel": "record",
+      "selectedEntity": "merid",
+      "hoverEntity": "merid",
+      "hoverCard": {
+        "flag": "Opaque ownership · nominee directors",
+        "action": "Ask Kharon"
+      },
+      "copy": "Who's actually behind Tarnwell?"
+    },
+    {
+      "id": "K1",
+      "title": "Kharon working",
+      "clock": "2026-10-28T10:03:00Z",
+      "version": "v1",
+      "left": "kharon",
+      "panel": "record",
+      "selectedEntity": "merid",
+      "kharon": {
+        "question": "Who controls Tarnwell Holdings?",
+        "steps": [
+          "Reading Tarnwell's Links",
+          "Checking listings",
+          "Tracing upstream ownership"
+        ],
+        "stop": true
+      },
+      "inProgressLinkIds": [
+        "L02",
+        "L03",
+        "L05",
+        "L09"
+      ]
+    },
+    {
+      "id": "S3",
+      "title": "Exposure revealed",
+      "flow": 3,
+      "clock": "2026-10-28T10:04:00Z",
+      "version": "v1",
+      "left": "kharon",
+      "panel": "record",
+      "selectedEntity": "tianshan",
+      "ghost": {
+        "dashedEntityIds": [
+          "xpu",
+          "tianshan",
+          "xpzdc"
+        ],
+        "dashedLinkIds": [
+          "L04",
+          "L07",
+          "L08"
+        ],
+        "dottedEntityIds": [
+          "zhou"
+        ],
+        "dottedLinkIds": [
+          "L05",
+          "L06",
+          "L22"
+        ]
+      },
+      "kharon": {
+        "answer": "Tarnwell's owners lead, three hops past this graph, to a US Entity List defense contractor in Ürümqi.",
+        "paths": [
+          "path-ownership",
+          "path-zhou"
+        ],
+        "lowConfidence": {
+          "pathId": "path-zhou",
+          "text": "I can't confirm the Zhou Ming who directs Tarnwell is the XPU dean: name and city match, no ID.",
+          "offers": [
+            "Check the BVI registry filing",
+            "Show as unconfirmed"
+          ]
+        },
+        "prompts": [
+          "Add this path to the Insight",
+          "Lay it out by ownership"
+        ]
+      },
+      "recordRow": "US Entity List · Apr 2021"
+    },
+    {
+      "id": "S4",
+      "title": "Proposal",
+      "flow": 4,
+      "clock": "2026-10-28T10:10:00Z",
+      "version": "v1",
+      "left": "kharon",
+      "panel": "insight",
+      "proposal": "P1",
+      "userPrompt": "Add this path and lay it out by ownership",
+      "copy": "Keep what's sourced, leave out what isn't."
+    },
+    {
+      "id": "S5",
+      "title": "Version 2",
+      "flow": 4,
+      "clock": "2026-10-28T10:12:00Z",
+      "version": "v2",
+      "left": "kharon",
+      "panel": "insight",
+      "kharon": {
+        "answer": "Version 2 saved · Kharon · approved by you · 3 of 4 Changes",
+        "prompts": [
+          "Generate new Insight",
+          "Show the original"
+        ]
+      },
+      "hierarchy": [
+        "xpzdc",
+        "tianshan",
+        "xpu",
+        "hct",
+        "merid",
+        "sury",
+        "contract",
+        "grantham"
+      ],
+      "copy": "The Exposure now reads top-down, from an OFAC-listed state owner to Grantham's supplier."
+    },
+    {
+      "id": "S6",
+      "title": "Back in time, Branch",
+      "flow": 4,
+      "clock": "2026-10-28T10:20:00Z",
+      "version": "b1",
+      "viewing": "v1",
+      "left": "kharon",
+      "panel": "insight",
+      "proposal": "P2",
+      "banner": "Viewing Version 1 · Changes here start a Branch",
+      "kharon": {
+        "answer": "Branch B started from Version 1"
+      },
+      "copy": "Version 1 is untouched. Its timeline Branch shows the polysilicon supplier leaving in May 2023, nine months before the Grantham contract."
+    },
+    {
+      "id": "S7",
+      "title": "Generate new Insight",
+      "flow": 4,
+      "clock": "2026-10-28T10:35:00Z",
+      "version": "v2",
+      "left": "kharon",
+      "panel": "draft",
+      "draftInsight": "ins-draft",
+      "kharon": {
+        "steps": [
+          "Outline",
+          "Draft",
+          "Self-check"
+        ],
+        "selfCheck": "Every claim sourced; the unconfirmed Zhou Ming link left out."
+      },
+      "copy": "Grantham's Solar Supplier Traces Back To A Sanctioned Xinjiang Defense Group Through Its Majority Owner"
+    },
+    {
+      "id": "S8",
+      "title": "Update lands",
+      "flow": 5,
+      "clock": "2026-10-30T15:00:00Z",
+      "version": "v2",
+      "left": "feed",
+      "panel": "insight",
+      "update": "U1",
+      "bellBadge": 1,
+      "updatedFeedInsightIds": [
+        "ins-sury"
+      ],
+      "copy": "Xinjiang Polytechnic University is added to the US Entity List. Two Insights you've read are affected."
+    },
+    {
+      "id": "S9",
+      "title": "Deep dive",
+      "flow": 5,
+      "clock": "2026-10-30T15:02:00Z",
+      "version": "v3",
+      "left": "kharon",
+      "panel": "record",
+      "selectedEntity": "xpu",
+      "proposal": "P3",
+      "kharon": {
+        "answer": "What changed since you last looked: XPU is now on the US Entity List. It settled the trust that holds 45% of Tarnwell. Suryadeep isn't listed itself, but a listed Entity now sits 3 hops upstream.",
+        "followUp": "This also affects the Insight you published."
+      },
+      "changedEntityIds": [
+        "xpu"
+      ],
+      "recordRow": "US Entity List · added 30 Oct 2026",
+      "relatedLine": "in 2 of your records"
+    }
+  ]
+}

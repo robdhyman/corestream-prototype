@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+
+/*
+  Theme tokens from the Figma variables on frame 117:5653 (CoreStream v3.X, read 2026-11-02 via get_variable_defs),
+  with figma-system.md for values the frame doesn't bind. Names follow the Figma variable where there is one.
+  Tailwind turns each --color-* into bg-/text-/border-/fill-/stroke- utilities and also emits it on :root.
+*/
+@theme {
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* brand and primary (var(--brand), --p-primary-*) */
+  --color-brand: #003b49;
+  --color-primary: #35a5b1;
+  --color-primary-hover: #2a8f9d;
+  --color-primary-active: #156675;
+  --color-highlight: #f6fbfc;
+  --color-focus-fill: #e8f6f7;
+  --color-avatar: #155e75;
+
+  /* surfaces and borders */
+  --color-surface-0: #ffffff;
+  --color-surface-50: #f8f8f8;
+  --color-surface-100: #ededed;
+  --color-content-border: #dedede; /* --p-content-border-color */
+  --color-form-border: #cecece;
+  --color-input-border: #cbd5e1;   /* inputtext/border/color */
+  --color-divider: #e5e7eb;        /* gray/200 */
+
+  /* buttons (button/outlined/plain/*, neutral/50) */
+  --color-button-bg: #fafafa;
+  --color-button-border: #e2e8f0;
+  --color-button-text: #334155;
+
+  /* text */
+  --color-text: #272727;           /* --p-text-color */
+  --color-text-muted: #595959;     /* --p-text-muted-color */
+  --color-text-soft: #8d8d8d;
+  --color-placeholder: #64748b;    /* floatlabel/color */
+  --color-field-icon: #94a3b8;     /* iconfield/icon/color */
+  --color-feed-ink: #082f49;       /* sky/950: card title and meta */
+  --color-feed-head: #083344;      /* cyan/950: feed head */
+
+  /* tags */
+  --color-tag-danger-bg: #fee2e2;
+  --color-tag-danger: #b91c1c;
+  --color-tag-warn-bg: #ffedd5;    /* --p-tag-warn-background */
+  --color-tag-warn: #c2410c;       /* --p-tag-warn-color */
+  --color-tag-warn-border: #b45309;/* amber/700: outlined (read) tag */
+  --color-tag-info-bg: #e0f2fe;
+  --color-tag-info: #0369a1;
+  --color-unread: #ea3300;         /* Tag/Warn/Unread */
+
+  /* node graph (Node Graph/*) */
+  --color-graph-bg: #ebeef2;       /* Surface/Background */
+  --color-graph-dot: #d3d3d7;      /* Dot grid tile #d7d3d3 multiplied at 65% over the background */
+  --color-graph-text: #201e1d;     /* Text/Primary */
+  --color-graph-text-2: #7a7a7d;   /* Text/Secondary: Link labels */
+  --color-entity: #13316b;         /* Entity/Fill */
+  --color-entity-stroke: #466397;  /* Entity/Stroke 80 (used at 80%) */
+  --color-entity-shadow: #1e345e;  /* Node shadow · Entity tint */
+  --color-risk: #d52d11;           /* Risk/Fill */
+  --color-risk-stroke: #970000;    /* Risk/Stroke 80 (used at 80%) */
+  --color-risk-shadow: #c8331a;    /* Node shadow · Risk tint */
+  --color-event: #707c81;          /* Node · contract fill in 117:5653 */
+  --color-event-stroke: #585d66;
+  --color-link: #c3c3c7;           /* Line/Edge */
+  --color-link-former: #747171;    /* Line/Edge former */
+  --color-link-hl: #1e345e;        /* Arrowhead component: hover/selected */
+  --color-badge-listed: #d52d11;
+  --color-badge-public: #2dae0d;
+  --color-agent: #f97316;          /* button/text/warn/color: the k */
+
+  /* type scale (CoreStream/* text styles) */
+  --text-header-title: 20px;
+  --text-header-title--line-height: 20px;
+  --text-tag: 10px;
+  --text-tag--line-height: 1.3;
+  --text-meta: 10.5px;
+  --text-meta--line-height: 1.5;
+  --text-card-title: 12.5px;
+  --text-card-title--line-height: 15px;
+  --text-h1: 37px;
+  --text-h1--line-height: 1.12;
+  --text-h1--letter-spacing: -0.01em;
+  --text-dek: 13px;
+  --text-dek--line-height: 1.4;
+  --text-dek--letter-spacing: -0.01em;
+  --text-body: 15px;
+  --text-body--line-height: 1.45;
+  --text-entity-name: 18px;
+  --text-entity-name--line-height: 1.3;
+  --text-table: 12.5px;
+  --text-table--line-height: 1.5;
+  --text-btn-sm: 12.25px;
+
+  /* shadows: Figma effect blur r is box-shadow blur r */
+  --shadow-input: 0 1px 2px 0 rgb(18 18 23 / 0.05);
+  --shadow-card: 0 2px 12px 0 rgb(0 0 0 / 0.05), 0 2px 4px 0 rgb(0 0 0 / 0.1);
+  --shadow-card-active: 0 2px 6px 0 rgb(0 0 0 / 0.08), 0 8px 24px 0 rgb(0 0 0 / 0.12);
+  --shadow-float: 0 4px 14px rgb(30 52 94 / 0.16);
+}
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-surface-0);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  button { cursor: pointer; }
+  /* Focus ring: 1 px #35a5b1, offset 2 (figma-system.md) */
+  :focus-visible { outline: 1px solid var(--color-primary); outline-offset: 2px; }
+  .pi { font-size: 14px; line-height: 1; }
+}

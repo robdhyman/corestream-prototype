@@ -1,0 +1,89 @@
+/* Graph marks. Ported from R3's graph.css (research/r3/graph.css) and retuned to the Figma
+   Node, Node label, Edge label and Arrowhead components (117:5653). Colours come from the @theme tokens. */
+
+.g-link .line { stroke: var(--color-link); stroke-width: 1.5; fill: none; stroke-linecap: round; pointer-events: none; }
+.g-link.former .line { stroke: var(--color-link-former); stroke-dasharray: 1 5; }
+.g-link .arrow { fill: none; stroke: var(--color-link); stroke-width: 1.575; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.g-link .hit { stroke: transparent; stroke-width: 14; fill: none; cursor: pointer; }
+.g-link .label {
+  font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; fill: var(--color-graph-text-2);
+  paint-order: stroke; stroke: var(--color-graph-bg); stroke-width: 4px; stroke-linejoin: round;
+  text-anchor: middle; dominant-baseline: central; pointer-events: none;
+}
+.g-link.hl .line, .g-link.hl .arrow, .g-link.sel .line, .g-link.sel .arrow { stroke: var(--color-link-hl); }
+.g-link.sel .line { stroke-width: 2.5; }
+.g-link.hl .label, .g-link.sel .label { fill: var(--color-link-hl); }
+
+.g-node { cursor: pointer; outline: none; }
+.g-node .mark { transition: transform 120ms ease-out; transform-box: fill-box; transform-origin: center; }
+.g-node:hover .mark, .g-node:focus-visible .mark { transform: scale(1.06); }
+.g-node .body { fill: var(--color-entity); stroke: color-mix(in srgb, var(--color-entity-stroke) 80%, transparent); stroke-width: 1.5; }
+.g-node.risk .body { fill: var(--color-risk); stroke: color-mix(in srgb, var(--color-risk-stroke) 80%, transparent); }
+.g-node.event .body { fill: var(--color-event); stroke: color-mix(in srgb, var(--color-event-stroke) 80%, transparent); }
+.g-node .ring { fill: none; stroke: var(--color-primary); stroke-width: 2; display: none; }
+.g-node.sel .ring, .g-node:focus-visible .ring { display: block; }
+.g-node.end .ring { display: block; stroke: var(--color-link-hl); }
+.g-node .label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600; fill: var(--color-graph-text);
+  paint-order: stroke; stroke: var(--color-graph-bg); stroke-width: 4px; stroke-linejoin: round;
+  text-anchor: middle; pointer-events: none;
+}
+
+/* Selection dims everything that isn't the selection or its neighbours (Node component: 0.3).
+   Kharon's ghosts stay at full strength: they are what the user is deciding on. */
+.g-world.focus .g-node:not(.near):not(.m-added):not(.m-unconfirmed):not(.m-changed):not(.m-riskPreview),
+.g-world.focus .g-link:not(.near):not(.m-added):not(.m-unconfirmed) { opacity: 0.3; }
+.g-link .label.side { text-anchor: start; }
+.g-node, .g-link { transition: opacity 160ms ease-out; }
+
+/* Camera eases when the frame changes (a new Arrangement, Kharon's ghosts); drags stay immediate. */
+.g-world.easing { transition: transform 520ms cubic-bezier(.45, 0, .25, 1); }
+
+/* Ghost diff (ticket 02): added = dashed teal, hidden = faded to 20%, unconfirmed = dotted orange + tag.
+   Only Unconfirmed gets its own mark once accepted. */
+.g-node.m-added .body { fill-opacity: 0.45; stroke: var(--color-primary); stroke-width: 2; stroke-dasharray: 4 3; }
+.g-node.m-unconfirmed .body { fill-opacity: 0.45; stroke: var(--color-tag-warn); stroke-width: 2.25; stroke-dasharray: 0.5 4; stroke-linecap: round; }
+.g-node.m-hidden, .g-link.m-hidden { opacity: 0.2; }
+.g-link.m-added .line, .g-link.m-added .arrow { stroke: var(--color-primary); }
+.g-link.m-added .line { stroke-width: 1.8; stroke-dasharray: 7 5; }
+.g-link.m-added .label { fill: var(--color-primary-active); }
+.g-link.m-unconfirmed .line, .g-link.m-unconfirmed .arrow { stroke: var(--color-tag-warn); }
+.g-link.m-unconfirmed .line { stroke-width: 2; stroke-dasharray: 0.5 5; }
+.g-link.m-unconfirmed .label { fill: var(--color-tag-warn); }
+.g-node .tag text { font-family: var(--font-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.05em; text-anchor: middle; pointer-events: none; }
+.g-node .tag.unc text { fill: var(--color-tag-warn); paint-order: stroke; stroke: var(--color-graph-bg); stroke-width: 4px; stroke-linejoin: round; }
+.g-node .tag.upd rect { fill: var(--color-tag-danger); }
+.g-node .tag.upd text { fill: #fff; font-size: 9px; }
+/* A pending risk Change (S9) and a Change hovered in the review. */
+.g-node.m-riskPreview .body { stroke: var(--color-risk); stroke-width: 3.5; stroke-dasharray: 4 3; }
+.g-node.m-highlight .ring { display: block; stroke: var(--color-primary); stroke-dasharray: 3 3; }
+.g-link.m-highlight .line { stroke-width: 3.5; }
+/* K1: the Links Kharon is reading pulse. */
+.g-link.m-progress .line { stroke: var(--color-primary); stroke-width: 2.2; stroke-dasharray: 6 6; animation: g-dash 1s linear infinite; }
+@keyframes g-dash { to { stroke-dashoffset: -24; } }
+@media (prefers-reduced-motion: reduce) { .g-link.m-progress .line { animation: none; } .g-world.easing { transition: none; } }
+
+/* Level of detail, as in R3: Link labels go below 45%, node labels below 30%. */
+.g-svg.lo .g-link:not(.sel) .label { display: none; }
+.g-svg.lo2 .g-node .label { display: none; }
+
+/* Timeline Arrangement (Branch B). Ported from the prototype's drawTime marks. */
+.tl-svg { background: var(--color-graph-bg); }
+.tl-pv { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; fill: var(--color-primary-active); }
+.tl-ax { stroke: #d5d9df; stroke-width: 1; }
+.tl-yr { font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; fill: var(--color-text-soft); text-anchor: middle; }
+.tl-row { cursor: pointer; }
+.tl-hit { fill: transparent; }
+.tl-row:hover .tl-hit, .tl-row.sel .tl-hit { fill: rgb(255 255 255 / 0.6); }
+.tl-a { font-family: var(--font-mono); font-size: 11px; font-weight: 600; fill: var(--color-graph-text); }
+.tl-r { font-family: var(--font-mono); font-size: 10.5px; fill: var(--color-graph-text-2); }
+.tl-bar { stroke: var(--color-entity-stroke); stroke-width: 5; stroke-linecap: round; }
+.tl-bar.k-ownership, .tl-bar.k-control { stroke: var(--color-entity); }
+.tl-bar.former { stroke: var(--color-link-former); stroke-dasharray: 1 7; }
+.tl-dot { fill: var(--color-entity); stroke: #fff; stroke-width: 2; }
+.tl-dot.risk { fill: var(--color-risk); }
+.tl-row.hl .tl-a { fill: var(--color-tag-info); }
+.tl-row.hl .tl-bar:not(.former) { stroke: var(--color-tag-info); }
+.tl-end { font-family: var(--font-mono); font-size: 10px; font-weight: 500; fill: var(--color-link-former); }
+.tl-mk { stroke: var(--color-tag-info); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.tl-mkt { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; fill: var(--color-tag-info); }
