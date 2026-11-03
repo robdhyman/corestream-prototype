@@ -160,6 +160,7 @@ export interface Insight {
   paras: string[];              // the last one starts 'Analyst view:'
   versions?: Version['id'][];
   generatedFrom?: Version['id'];
+  entityIds?: string[];         // ins-draft: the Entities its text cites; its published network (ticket 20)
   outline?: { id: string; text: string; order: number; movedByUser?: true }[];
   selfCheck?: { claims: number; sourced: number; summary: string; leftOut: { linkId: string; reason: string }[] };
 }

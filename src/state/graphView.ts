@@ -3,7 +3,7 @@
 
 import { caseData, linkById } from '../data/case';
 import type { Entity, EntityMark, GraphMarks, LinkMark } from '../data/types';
-import { proposalById, story, versionContent, versionMeta, type ArrangementId, type VersionContent } from '../data/story';
+import { draftInsight, proposalById, story, versionContent, versionMeta, type ArrangementId, type VersionContent } from '../data/story';
 import { arrangementLocked, savedArrangement, type FlowState } from './flow';
 
 export type LegendKey = 'added' | 'found' | 'hidden' | 'unconfirmed';
@@ -74,6 +74,15 @@ export function graphView(s: FlowState): GraphView {
     reveal(pathHidden('path-zhou'), 'unconfirmed');
     legend = { title: "From Kharon's answer · not in the Insight", keys: ['found', 'unconfirmed'] };
     if (arrangement === 'radial') focus = PATH_ENTITIES;
+  }
+
+  // Ticket 20: the published Insight draws only the Entities its own text cites, and the Links between them,
+  // so its network is similar to the Version's, not identical.
+  if (s.insightShown === 'published') {
+    const cited = new Set(draftInsight.entityIds);
+    for (const id of [...ents]) if (!cited.has(id)) ents.delete(id);
+    for (const id of [...links]) { const l = linkById.get(id)!; if (!ents.has(l.source) || !ents.has(l.target)) links.delete(id); }
+    if (arrangement !== 'timeline') focus = [...ents];
   }
 
   // K1: Tarnwell's upstream Links pulse while Kharon reads them.

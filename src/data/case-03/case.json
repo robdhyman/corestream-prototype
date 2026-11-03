@@ -1157,6 +1157,7 @@
       "id": "ins-draft",
       "status": "draft",
       "generatedFrom": "v2",
+      "entityIds": ["grantham", "contract", "sury", "merid", "hct", "xpu", "tianshan", "xpzdc"],
       "tag": "Sanctions",
       "sev": "danger",
       "place": "Ahmedabad, IN",

@@ -1,6 +1,6 @@
 // Feed column (Figma 117:5656): feed-head, a list of Feed/Card (28:386), and the synthetic-data footer.
 // Ticket 09: the published Draft Insight joins the top of the Main Feed (S7), and the Update (S8) tags the two
-// affected cards "Updated" and lifts them to the top. Clicking an updated card opens what changed (S9).
+// affected cards "Updated" (the published one keeps "New", ticket 20) and lifts them to the top. Clicking an updated card opens what changed (S9).
 
 import { caseData } from '../data/case';
 import { age } from '../data/from-case-03';
@@ -9,7 +9,7 @@ import type { FeedItem } from '../data/types';
 import { PUBLISHED_FEED_ID } from '../state/flow';
 import { useApp } from '../state/store';
 
-export type FeedCardView = FeedItem & { updated?: boolean };
+export type FeedCardView = FeedItem & { updated?: boolean; isNew?: boolean };
 
 const CLOCK = { 1: story.screens.find((s) => s.id === 'S1')!.clock, 3: story.screens.find((s) => s.id === 'S8')!.clock };
 
@@ -23,12 +23,13 @@ export function useFeedCards(): FeedCardView[] {
   if (state.published) {
     cards = [{
       id: PUBLISHED_FEED_ID, tag: draftInsight.tag, severity: 'danger', title: draftInsight.cardTitle, place: draftInsight.place,
-      time: state.day === 1 ? 'Just now' : age(draftInsight.publishedAt, clock), insightId: draftInsight.id,
+      time: state.day === 1 ? 'Just now' : age(draftInsight.publishedAt, clock), insightId: draftInsight.id, isNew: true,
     }, ...cards];
   }
   if (state.day === 3) {
     const affected = new Set<string>(story.update.affectedInsightIds);
-    const hit = cards.filter((c) => c.insightId && affected.has(c.insightId)).map((c) => ({ ...c, updated: true, time: 'Today' }));
+    // The Insight published at S7 keeps "New" rather than "Updated" (ticket 20).
+    const hit = cards.filter((c) => c.insightId && affected.has(c.insightId)).map((c) => ({ ...c, updated: !c.isNew, time: 'Today' }));
     const order = (c: FeedCardView) => (c.insightId === 'ins-sury' ? 0 : 1);
     cards = [...hit.sort((a, b) => order(a) - order(b)), ...cards.filter((c) => !c.insightId || !affected.has(c.insightId))];
   }
@@ -82,7 +83,7 @@ function FeedCard({ item, active, onSelect }: { item: FeedCardView; active: bool
           <span className={`rounded-xs px-1.5 font-mono text-tag ${unread ? `${tone.fill} py-1 font-semibold` : `border ${tone.line} py-[3px] font-medium`}`}>
             {tagLabel(item.tag)}
           </span>
-          {item.updated && <span className="rounded-xs bg-tag-info-bg px-1.5 py-1 font-mono text-tag font-semibold text-tag-info">Updated</span>}
+          {(item.updated || item.isNew) && <span className="rounded-xs bg-tag-info-bg px-1.5 py-1 font-mono text-tag font-semibold text-tag-info">{item.updated ? 'Updated' : 'New'}</span>}
           {unread && <span className="size-2 rounded-full bg-unread" aria-label="Unread" />}
         </div>
         <button type="button" aria-label="Bookmark" onClick={(e) => e.stopPropagation()} className="flex size-[22px] items-center justify-center rounded-[11px] text-text-muted opacity-0 hover:bg-surface-50 focus-visible:opacity-100 group-hover:opacity-100">
